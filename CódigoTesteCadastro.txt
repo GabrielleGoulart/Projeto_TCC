@@ -1,0 +1,274 @@
+package com.projeto_ordemservico.projeto_ordemservico;
+
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern; // Importar Pattern e Matcher para regex
+
+public class CadastroController {
+
+    @FXML
+    private TextField TXData;
+    @FXML
+    private TextField TxCEP_Cliente;
+    @FXML
+    private TextField TxCPF_Cliente;
+    @FXML
+    private TextField TxCNPJ_Cliente;
+    @FXML
+    private TextField TxDefeito_Aparelho;
+    @FXML
+    private TextField TxEmailCliente;
+    @FXML
+    private TextField TxEndereçoCliente;
+    @FXML
+    private TextField TxModelo_Aparelho;
+    @FXML
+    private TextField TxNomeCliente;
+    @FXML
+    private TextField TxNomedoTecnco;
+    @FXML
+    private TextField TxObservacao_Aparelho;
+    @FXML
+    private TextField TxPecas_Aparelho;
+    @FXML
+    private TextField TxServicoExecutado;
+    @FXML
+    private TextField TxTelefoneCliente;
+    @FXML
+    private TextField TxValor;
+    @FXML
+    private Button BtVoltar;
+    @FXML
+    private Button btCadastrar;
+
+    // Regex para validação de e-mail (um padrão comum)
+    private static final String EMAIL_REGEX =
+        "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+    private static final Pattern EMAIL_PATTERN = Pattern.compile(EMAIL_REGEX);
+
+    @FXML
+    protected void SalvarCadastro() {
+        // 1. Coleta e trim dos dados
+        String data = TXData.getText().trim();
+        String cepCliente = TxCEP_Cliente.getText().trim();
+        String cpfCliente = TxCPF_Cliente.getText().trim();
+        String cnpjCliente = TxCNPJ_Cliente.getText().trim();
+        String defeitoAparelho = TxDefeito_Aparelho.getText().trim();
+        String emailCliente = TxEmailCliente.getText().trim();
+        String enderecoCliente = TxEndereçoCliente.getText().trim();
+        String modeloAparelho = TxModelo_Aparelho.getText().trim();
+        String nomeCliente = TxNomeCliente.getText().trim();
+        String nomeTecnico = TxNomedoTecnco.getText().trim();
+        String observacaoAparelho = TxObservacao_Aparelho.getText().trim();
+        String pecasAparelhoText = TxPecas_Aparelho.getText().trim();
+        String servicoExecutado = TxServicoExecutado.getText().trim();
+        String telefoneCliente = TxTelefoneCliente.getText().trim();
+        String valorText = TxValor.getText().trim();
+
+        // --- 2. Validação dos Dados ---
+
+        // Validação de campos obrigatórios
+        if (nomeCliente.isEmpty()) {
+            showAlert(AlertType.ERROR, "Campo Obrigatório", "O campo 'Nome do Cliente' não pode estar vazio.");
+            return;
+        }
+        if (telefoneCliente.isEmpty()) {
+            showAlert(AlertType.ERROR, "Campo Obrigatório", "O campo 'Telefone do Cliente' não pode estar vazio.");
+            return;
+        }
+        if (data.isEmpty()) {
+            showAlert(AlertType.ERROR, "Campo Obrigatório", "O campo 'Data' não pode estar vazio.");
+            return;
+        }
+        if (modeloAparelho.isEmpty()) {
+            showAlert(AlertType.ERROR, "Campo Obrigatório", "O campo 'Modelo do Aparelho' não pode estar vazio.");
+            return;
+        }
+        if (defeitoAparelho.isEmpty()) {
+            showAlert(AlertType.ERROR, "Campo Obrigatório", "O campo 'Defeito do Aparelho' não pode estar vazio.");
+            return;
+        }
+        if (nomeTecnico.isEmpty()) {
+            showAlert(AlertType.ERROR, "Campo Obrigatório", "O campo 'Nome do Técnico' não pode estar vazio.");
+            return;
+        }
+
+        // Validação CPF ou CNPJ (apenas um deve ser preenchido)
+        boolean cpfPreenchido = !cpfCliente.isEmpty();
+        boolean cnpjPreenchido = !cnpjCliente.isEmpty();
+
+        if (!cpfPreenchido && !cnpjPreenchido) {
+            showAlert(AlertType.ERROR, "Validação de Documento", "É necessário preencher o CPF ou o CNPJ do cliente.");
+            return;
+        }
+        if (cpfPreenchido && cnpjPreenchido) {
+            showAlert(AlertType.ERROR, "Validação de Documento", "Preencha APENAS o CPF ou o CNPJ, não ambos.");
+            return;
+        }
+        if (cpfPreenchido && cpfCliente.length() != 11) { // Validação de tamanho básico
+            showAlert(AlertType.ERROR, "Formato Inválido", "O CPF deve conter 11 dígitos.");
+            return;
+        }
+        if (cnpjPreenchido && cnpjCliente.length() != 14) { // Validação de tamanho básico
+            showAlert(AlertType.ERROR, "Formato Inválido", "O CNPJ deve conter 14 dígitos.");
+            return;
+        }
+
+        // Validação de Email (se preenchido, deve ser válido)
+        if (!emailCliente.isEmpty()) {
+            Matcher matcher = EMAIL_PATTERN.matcher(emailCliente);
+            if (!matcher.matches()) {
+                showAlert(AlertType.ERROR, "Formato Inválido", "O e-mail inserido não possui um formato válido.");
+                return;
+            }
+        }
+
+        // Validação de CEP (se preenchido, deve ter 8 dígitos)
+        if (!cepCliente.isEmpty() && cepCliente.length() != 8) {
+            showAlert(AlertType.ERROR, "Formato Inválido", "O CEP deve conter 8 dígitos.");
+            return;
+        }
+
+        // Validação de Valor
+        double valorNumerico;
+        if (valorText.isEmpty()) {
+            showAlert(AlertType.ERROR, "Campo Obrigatório", "O campo 'Valor Total' não pode estar vazio.");
+            return;
+        }
+        try {
+            valorNumerico = Double.parseDouble(valorText.replace(",", ".")); // Troca vírgula por ponto para parse
+            if (valorNumerico < 0) {
+                showAlert(AlertType.ERROR, "Valor Inválido", "O valor total não pode ser negativo.");
+                return;
+            }
+        } catch (NumberFormatException e) {
+            showAlert(AlertType.AlertType.ERROR, "Erro", "Valor total deve ser um número válido (ex: 123.45 ou 123,45).");
+            return;
+        }
+
+        // --- 3. Conexão e Persistência no Banco de Dados ---
+        String URL = "jdbc:mysql://localhost:3306/Projeto_OSladyService";
+        String USUARIO = "root";
+        String SENHA = "";
+
+        String sqlCliente = "INSERT INTO Cadastro_Cliente (nome_cliente, cpf, cnpj, endereco, cep, email, telefone) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sqlAparelho = "INSERT INTO Cadastro_Aparelhos (id_cliente, nome_aparelho, defeito, servico_executados, pecas_aplicadas, nome_tecnico, data_cadastro, observacoes, valor_total, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try (Connection conexao = DriverManager.getConnection(URL, USUARIO, SENHA)) {
+            int idClienteInserido = -1;
+
+            // Inserir Cliente
+            try (PreparedStatement pstmtCliente = conexao.prepareStatement(sqlCliente, Statement.RETURN_GENERATED_KEYS)) {
+                pstmtCliente.setString(1, nomeCliente);
+                pstmtCliente.setString(2, cpfCliente.isEmpty() ? null : cpfCliente); // Usa null se vazio
+                pstmtCliente.setString(3, cnpjCliente.isEmpty() ? null : cnpjCliente); // Usa null se vazio
+                pstmtCliente.setString(4, enderecoCliente.isEmpty() ? null : enderecoCliente);
+                pstmtCliente.setString(5, cepCliente.isEmpty() ? null : cepCliente);
+                pstmtCliente.setString(6, emailCliente.isEmpty() ? null : emailCliente);
+                pstmtCliente.setString(7, telefoneCliente); // Já validado como não vazio
+
+                int linhasAfetadas = pstmtCliente.executeUpdate();
+                if (linhasAfetadas > 0) {
+                    ResultSet generatedKeys = pstmtCliente.getGeneratedKeys();
+                    if (generatedKeys.next()) {
+                        idClienteInserido = generatedKeys.getInt(1);
+                    }
+                } else {
+                    showAlert(AlertType.ERROR, "Erro", "Não foi possível salvar os dados do cliente.");
+                    return;
+                }
+            }
+
+            // Inserir Aparelho
+            try (PreparedStatement pstmtAparelho = conexao.prepareStatement(sqlAparelho)) {
+                pstmtAparelho.setInt(1, idClienteInserido); // ID do cliente recém-inserido
+                pstmtAparelho.setString(2, modeloAparelho); // Já validado como não vazio
+                pstmtAparelho.setString(3, defeitoAparelho); // Já validado como não vazio
+                pstmtAparelho.setString(4, servicoExecutado.isEmpty() ? null : servicoExecutado);
+                pstmtAparelho.setString(5, pecasAparelhoText.isEmpty() ? null : pecasAparelhoText);
+                pstmtAparelho.setString(6, nomeTecnico); // Já validado como não vazio
+                pstmtAparelho.setString(7, data); // Já validado como não vazio
+                pstmtAparelho.setString(8, observacaoAparelho.isEmpty() ? null : observacaoAparelho);
+                pstmtAparelho.setDouble(9, valorNumerico); // Já validado como número
+                pstmtAparelho.setString(10, "Em Análise"); // Status inicial
+
+                int linhasAfetadas = pstmtAparelho.executeUpdate();
+                if (linhasAfetadas > 0) {
+                    showAlert(AlertType.INFORMATION, "Sucesso", "Ordem de serviço cadastrada com sucesso!");
+                    limparCampos(); // Limpa os campos após o sucesso
+                } else {
+                    showAlert(AlertType.ERROR, "Erro", "Erro ao cadastrar a ordem de serviço.");
+                }
+
+            } catch (SQLException e) {
+                showAlert(AlertType.ERROR, "Erro SQL (Aparelho)", "Erro ao salvar a ordem de serviço: " + e.getMessage());
+            }
+
+        } catch (SQLException e) {
+            showAlert(AlertType.ERROR, "Erro SQL (Conexão/Cliente)", "Erro na conexão com o banco de dados ou ao salvar o cliente: " + e.getMessage());
+        }
+    }
+
+    // Método auxiliar para exibir alertas
+    private void showAlert(AlertType alertType, String title, String content) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null); // Não exibe um cabeçalho grande
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+
+    // Método para limpar todos os campos após o cadastro
+    private void limparCampos() {
+        TXData.setText("");
+        TxCEP_Cliente.setText("");
+        TxCPF_Cliente.setText("");
+        TxCNPJ_Cliente.setText("");
+        TxDefeito_Aparelho.setText("");
+        TxEmailCliente.setText("");
+        TxEndereçoCliente.setText("");
+        TxModelo_Aparelho.setText("");
+        TxNomeCliente.setText("");
+        TxNomedoTecnco.setText("");
+        TxObservacao_Aparelho.setText("");
+        TxPecas_Aparelho.setText("");
+        TxServicoExecutado.setText("");
+        TxTelefoneCliente.setText("");
+        TxValor.setText("");
+    }
+
+    // Método para voltar à tela anterior
+    @FXML
+    protected void VoltarParaTelaAnterior() throws IOException {
+        try {
+            // Carrega o FXML da tela anterior (exemplo: PagInicial.fxml)
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("PagInicial.fxml"));
+            Parent root = loader.load();
+
+            // Troca a cena na mesma janela
+            // NavegacaoTelas.mainStage.setScene(new Scene(root)); // Assumindo NavegacaoTelas.mainStage existe
+            // Se NavegacaoTelas.mainStage não for acessível estaticamente, você precisa pegar a janela atual:
+            Stage stage = (Stage) BtVoltar.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Página Inicial"); // Opcional: Define o título da nova tela
+            stage.show();
+        } catch (IOException e) {
+            showAlert(AlertType.ERROR, "Erro de Navegação", "Não foi possível retornar à página inicial: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+}
