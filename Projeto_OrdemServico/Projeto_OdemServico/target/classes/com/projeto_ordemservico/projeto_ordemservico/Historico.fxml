@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="709.0" prefWidth="1260.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.projeto_ordemservico.projeto_ordemservico.HistoricoController">
+    <children>
+        <ImageView fitHeight="709.0" fitWidth="1260.0" pickOnBounds="true" preserveRatio="true" style="-fx-background-color: #2c2227;">
+            <image>
+                <Image url="@../../../Imagens/6.historico.png" />
+            </image>
+        </ImageView>
+        <Button fx:id="BtVoltar" layoutX="1158.0" layoutY="627.0" mnemonicParsing="false" onAction="#VoltarParaTelaAnterior" opacity="0.0" prefHeight="59.0" prefWidth="60.0" style="-fx-background-radius: 30px;" text="Voltar" />
+        <TableView fx:id="TabelaHistorico" layoutX="79.0" layoutY="148.0" prefHeight="503.0" prefWidth="1055.0">
+            <columns>
+                <TableColumn fx:id="id_historico" prefWidth="100.0" text="ID Histórico" />
+                <TableColumn fx:id="nome_cliente" prefWidth="100.0" text="nome Cliente" />
+                <TableColumn fx:id="nome_aparelho" prefWidth="100.0" text="nome Aparelho" />
+                <TableColumn fx:id="data_entrada" prefWidth="150.0" text="Data Entrada" />
+                <TableColumn fx:id="data_saida" prefWidth="150.0" text="Data Saída" />
+                <TableColumn fx:id="status_servico" prefWidth="150.0" text="Status" />
+                <TableColumn fx:id="observacoes" prefWidth="300.0" text="Observações" />
+            </columns>
+        </TableView>
+      <Button fx:id="BtPDF" layoutX="762.0" layoutY="90.0" mnemonicParsing="false" onAction="#gerarPDF" opacity="0.0" prefHeight="44.0" prefWidth="298.0" text="Gerar Relatorio de serviço" />
+    </children>
+</AnchorPane>

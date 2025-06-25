@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="709.0" prefWidth="1260.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.projeto_ordemservico.projeto_ordemservico.PagInicialController">
+   <children>
+      <ImageView fitHeight="710.0" fitWidth="1261.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../Imagens/2.pagInicial.png" />
+         </image>
+      </ImageView>
+      <Button fx:id="BtHistorico" layoutX="560.0" layoutY="427.0" mnemonicParsing="false" opacity="0.0" prefHeight="182.0" prefWidth="289.0" text="Button Historico" onAction="#AcessoHistorico" />
+      <Button fx:id="BtAparelhos" layoutX="863.0" layoutY="229.0" mnemonicParsing="false" opacity="0.0" prefHeight="182.0" prefWidth="289.0" text="Button Aparelhos" onAction="#AcessoAparelhos"/>
+      <Button fx:id="BtCadastrar" layoutX="560.0" layoutY="229.0" mnemonicParsing="false" opacity="0.0" prefHeight="182.0" prefWidth="289.0" text="Button Cadastrar" onAction="#AcessoCadastro" />
+      <Button fx:id="BtClientes" layoutX="863.0" layoutY="427.0" mnemonicParsing="false" opacity="0.0" prefHeight="182.0" prefWidth="289.0" text="Button Clientes" onAction="#AcessoClientes"/>
+      <Button fx:id="BtVoltar" layoutX="1152.0" layoutY="623.0" mnemonicParsing="false" opacity="0.0" prefHeight="69.0" prefWidth="64.0" style="-fx-background-radius: 30px;" text="Voltar" onAction="#VoltarParaTelaAnterior"/>
+   </children>
+</AnchorPane>

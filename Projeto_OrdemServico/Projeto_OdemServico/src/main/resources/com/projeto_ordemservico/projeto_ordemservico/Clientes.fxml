@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="709.0" prefWidth="1260.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.projeto_ordemservico.projeto_ordemservico.ClientesController">
+   <children>
+      <ImageView fitHeight="709.0" fitWidth="1272.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../Imagens/Clientes.png" />
+         </image>
+      </ImageView>
+      <TableView fx:id="tabelaCadastro_ClientesTableView" layoutX="21.0" layoutY="210.0" prefHeight="472.0" prefWidth="853.0">
+        <columns>
+            <TableColumn fx:id="id_cliente" prefWidth="75.0" text="ID Cliente" />
+            <TableColumn fx:id="nome_cliente" prefWidth="150.0" text="Nome Cliente" />
+            <TableColumn fx:id="cpf" prefWidth="100.0" text="CPF" />
+            <TableColumn fx:id="cnpj" prefWidth="100.0" text="CNPJ" />
+            <TableColumn fx:id="endereco" prefWidth="147.0" text="Endereço" />
+            <TableColumn fx:id="cep" prefWidth="78.0" text="CEP" />
+            <TableColumn fx:id="email" prefWidth="100.0" text="Email" />
+            <TableColumn fx:id="telefone" prefWidth="100.0" text="Telefone" />
+        </columns>
+      </TableView>
+      <Button fx:id="Btatualizar" layoutX="1030.0" layoutY="251.0" mnemonicParsing="false" onAction="#atualizarTabela" opacity="0.0" prefHeight="93.0" prefWidth="94.0" text="Atualizar" />
+      <Button fx:id="Bteditar" layoutX="1030.0" layoutY="380.0" mnemonicParsing="false" opacity="0.0" prefHeight="93.0" prefWidth="94.0" text="Editar" onAction="#editarCliente" />
+      <Button fx:id="BtDeletar" layoutX="1024.0" layoutY="505.0" mnemonicParsing="false" onAction="#deletarCliente" opacity="0.0" prefHeight="93.0" prefWidth="100.0" text="Deletar" />
+      <Button fx:id="BtVoltar" layoutX="1159.0" layoutY="620.0" mnemonicParsing="false" onAction="#VoltarParaTelaAnterior" opacity="0.0" prefHeight="61.0" prefWidth="60.0" style="-fx-background-radius: 30px;" text="Button" />
+   </children>
+</AnchorPane>

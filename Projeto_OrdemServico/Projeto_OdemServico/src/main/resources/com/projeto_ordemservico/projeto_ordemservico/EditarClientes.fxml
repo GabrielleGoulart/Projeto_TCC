@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="709.0" prefWidth="1260.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.projeto_ordemservico.projeto_ordemservico.EditarClientesController">
+   <children>
+      <ImageView fitHeight="709.0" fitWidth="1260.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../Imagens/EditarCliente.png" />
+         </image>
+      </ImageView>
+      <Button fx:id="Btvoltar" layoutX="1161.0" layoutY="629.0" mnemonicParsing="false" onAction="#VoltarParaTelaAnterior" opacity="0.0" prefHeight="60.0" prefWidth="55.0" style="-fx-background-radius: 30px;" text="Voltar" />
+      <Button fx:id="BtSalvar" layoutX="652.0" layoutY="610.0" mnemonicParsing="false" onAction="#salvarEdicoes" opacity="0.0" prefHeight="51.0" prefWidth="229.0" text="Button" />
+      <TextField fx:id="emailField" layoutX="594.0" layoutY="520.0" prefHeight="44.0" prefWidth="349.0" promptText="Insira o E-mail:" style="-fx-background-color: #2c2227; -fx-text-fill: white;" />
+      <TextField fx:id="cepField" layoutX="594.0" layoutY="432.0" prefHeight="44.0" prefWidth="349.0" promptText="Insira o CEP:" style="-fx-background-color: #2c2227; -fx-text-fill: white;" />
+      <TextField fx:id="enderecoField" layoutX="593.0" layoutY="345.0" prefHeight="44.0" prefWidth="349.0" promptText="Insira o Endereço:" style="-fx-background-color: #2c2227; -fx-text-fill: white;" />
+      <TextField fx:id="nomeField" layoutX="594.0" layoutY="94.0" prefHeight="44.0" prefWidth="349.0" promptText="Insira o Nome:" style="-fx-background-color: #2c2227; -fx-text-fill: white;" />
+      <TextField fx:id="cpfField" layoutX="592.0" layoutY="177.0" prefHeight="44.0" prefWidth="147.0" promptText="Insira o CPF:" style="-fx-background-color: #2c2227; -fx-text-fill: white;" />
+      <TextField fx:id="cnpjField" layoutX="594.0" layoutY="259.0" prefHeight="44.0" prefWidth="147.0" promptText="Insira o CNPJ:" style="-fx-background-color: #2c2227; -fx-text-fill: white;" />
+      <TextField fx:id="telefoneField" layoutX="794.0" layoutY="220.0" prefHeight="44.0" prefWidth="147.0" promptText="Insira O Telefone:" style="-fx-background-color: #2c2227; -fx-text-fill: white;" />
+   </children>
+</AnchorPane>

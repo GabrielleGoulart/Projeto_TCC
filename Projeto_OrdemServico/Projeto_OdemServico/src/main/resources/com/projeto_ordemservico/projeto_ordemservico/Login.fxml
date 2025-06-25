@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="709.0" prefWidth="1260.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.projeto_ordemservico.projeto_ordemservico.LoginController">
+    <children>
+
+        <ImageView fitHeight="755.0" fitWidth="1260.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../../../Imagens/1.login.png" />
+            </image>
+        </ImageView>
+        <Button fx:id="btEntrar" layoutX="664.0" layoutY="610.0" mnemonicParsing="false" onAction="#Acesso" opacity="0.0" prefHeight="53.0" prefWidth="222.0" text="Entrar" />
+        <TextField fx:id="txCNPJ" layoutX="580.0" layoutY="374.0" prefHeight="53.0" prefWidth="382.0" promptText="Digite o CNPJ:" style="-fx-background-radius: 10px; -fx-background-color: #2c2227; -fx-text-fill: white;" />
+      <PasswordField fx:id="PwSenha" layoutX="580.0" layoutY="490.0" prefHeight="53.0" prefWidth="382.0" promptText="Digite a senha:" style="-fx-background-radius: 10px; -fx-background-color: #2c2227; -fx-text-fill: white;" />
+    </children>
+</AnchorPane>

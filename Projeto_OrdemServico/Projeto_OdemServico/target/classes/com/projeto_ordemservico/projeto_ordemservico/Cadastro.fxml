@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="709.0" prefWidth="1260.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.projeto_ordemservico.projeto_ordemservico.CadastroController">
+   <children>
+      <ImageView fitHeight="709.0" fitWidth="1260.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../Imagens/cadastro.png" />
+         </image>
+      </ImageView>
+      <TextField fx:id="TxNomeCliente" layoutX="59.0" layoutY="168.0" prefHeight="41.0" prefWidth="354.0" promptText="Insira o nome:" style="-fx-background-radius: 10px; -fx-background-color: #2c2227; -fx-text-fill: white;" />
+      <TextField fx:id="TxModelo_Aparelho" layoutX="465.0" layoutY="165.0" prefHeight="41.0" prefWidth="354.0" promptText="Insira o modelo do aparelho:" style="-fx-background-radius: 10px; -fx-background-color: #2c2227; -fx-text-fill: white;" />
+      <TextField fx:id="TxDefeito_Aparelho" layoutX="466.0" layoutY="269.0" prefHeight="64.0" prefWidth="347.0" promptText="Insira o defeito:" style="-fx-background-radius: 10px; -fx-background-color: #2c2227; -fx-text-fill: white;" />
+      <TextField fx:id="TxServicoExecutado" layoutX="466.0" layoutY="378.0" prefHeight="64.0" prefWidth="347.0" promptText="descreva o serviço a ser executado:" style="-fx-background-radius: 10px; -fx-background-color: #2c2227; -fx-text-fill: white;" />
+      <TextField fx:id="TxPecas_Aparelho" layoutX="466.0" layoutY="489.0" prefHeight="41.0" prefWidth="347.0" promptText="insira as peças a serem aplicadas:" style="-fx-background-radius: 10px; -fx-background-color: #2c2227; -fx-text-fill: white;" />
+      <TextField fx:id="TxNomedoTecnco" layoutX="466.0" layoutY="592.0" prefHeight="41.0" prefWidth="347.0" promptText="Insira o nome do tecnico(a):" style="-fx-background-radius: 10px; -fx-background-color: #2c2227; -fx-text-fill: white;" />
+      <TextField fx:id="TxEmailCliente" layoutX="65.0" layoutY="593.0" prefHeight="41.0" prefWidth="347.0" promptText="Insira o email:" style="-fx-background-radius: 10px; -fx-background-color: #2c2227; -fx-text-fill: white;" />
+      <TextField fx:id="TxCEP_Cliente" layoutX="66.0" layoutY="484.0" prefHeight="41.0" prefWidth="347.0" promptText="Insira o CEP:" style="-fx-background-radius: 10px; -fx-background-color: #2c2227; -fx-text-fill: white;" />
+      <TextField fx:id="TxEndereçoCliente" layoutX="61.0" layoutY="380.0" prefHeight="41.0" prefWidth="354.0" promptText="Insira o endereço:" style="-fx-background-radius: 10px; -fx-background-color: #2c2227; -fx-text-fill: white;" />
+      <TextField fx:id="TXData" layoutX="866.0" layoutY="165.0" prefHeight="41.0" prefWidth="226.0" promptText="Insira a data:" style="-fx-background-radius: 10px; -fx-background-color: #2c2227; -fx-text-fill: white;" />
+      <TextField fx:id="TxValor" layoutX="863.0" layoutY="487.0" prefHeight="41.0" prefWidth="232.0" promptText="Insira o valor total:" style="-fx-background-radius: 10px; -fx-background-color: #2c2227; -fx-text-fill: white;" />
+      <TextField fx:id="TxObservacao_Aparelho" layoutX="863.0" layoutY="265.0" prefHeight="178.0" prefWidth="232.0" promptText="Insira observaçoẽs:" style="-fx-background-radius: 10px; -fx-background-color: #2c2227; -fx-text-fill: white;" />
+      <TextField fx:id="TxCPF_Cliente" layoutX="59.0" layoutY="238.0" prefHeight="41.0" prefWidth="149.0" promptText="Insira o CPF:" style="-fx-background-radius: 10px; -fx-background-color: #2c2227; -fx-text-fill: white;" />
+      <TextField fx:id="TxTelefoneCliente" layoutX="260.0" layoutY="272.0" prefHeight="41.0" prefWidth="155.0" promptText="Insira o telefone:" style="-fx-background-radius: 10px; -fx-background-color: #2c2227; -fx-text-fill: white;" />
+      <Button fx:id="btCadastrar" layoutX="864.0" layoutY="589.0" mnemonicParsing="false" opacity="0.0" prefHeight="48.0" prefWidth="232.0" text="Button" onAction="#SalvarCadastro" />
+      <Button fx:id="BtVoltar" layoutX="1129.0" layoutY="603.0" mnemonicParsing="false" onAction="#VoltarParaTelaAnterior" opacity="0.0" prefHeight="64.0" prefWidth="68.0" style="-fx-background-radius: 30px;" text="Voltar" />
+      <TextField fx:id="TxCNPJ_Cliente" layoutX="59.0" layoutY="304.0" prefHeight="41.0" prefWidth="149.0" promptText="Insira o CNPJ:" style="-fx-background-radius: 10px; -fx-background-color: #2c2227; -fx-text-fill: white;" />
+   </children>
+</AnchorPane>
