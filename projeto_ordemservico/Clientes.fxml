@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="709" prefWidth="1260" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.projeto_ordemservico.projeto_ordemservico.ClientesController">
+   <children>
+      <ImageView fitHeight="709.0" fitWidth="1260.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../Imagens/tela de clientes.png" />
+         </image>
+      </ImageView>
+      <TableView fx:id="tabelaCadastro_ClientesTableView" layoutX="21.0" layoutY="210.0" prefHeight="472.0" prefWidth="853.0" style="-fx-background-color: #E0FFFF;">
+        <columns>
+            <TableColumn fx:id="id_cliente" prefWidth="75.0" text="ID Cliente" />
+            <TableColumn fx:id="nome_cliente" prefWidth="150.0" text="Nome Cliente" />
+            <TableColumn fx:id="cpf" prefWidth="100.0" text="CPF" />
+            <TableColumn fx:id="cnpj" prefWidth="100.0" text="CNPJ" />
+            <TableColumn fx:id="endereco" prefWidth="147.0" text="Endereço" />
+            <TableColumn fx:id="cep" prefWidth="78.0" text="CEP" />
+            <TableColumn fx:id="email" prefWidth="100.0" text="Email" />
+            <TableColumn fx:id="telefone" prefWidth="100.0" text="Telefone" />
+        </columns>
+      </TableView>
+      <Button fx:id="Btatualizar" layoutX="1030.0" layoutY="251.0" mnemonicParsing="false" onAction="#atualizarTabela" opacity="0.46" prefHeight="93.0" prefWidth="94.0" text="Atualizar" />
+      <Button fx:id="Bteditar" layoutX="1030.0" layoutY="380.0" mnemonicParsing="false" onAction="#editarCliente" opacity="0.57" prefHeight="93.0" prefWidth="94.0" text="Editar" />
+      <Button fx:id="BtDeletar" layoutX="1024.0" layoutY="505.0" mnemonicParsing="false" onAction="#deletarCliente" opacity="0.58" prefHeight="93.0" prefWidth="100.0" text="Deletar" />
+      <Button fx:id="BtVoltar" layoutX="1154.0" layoutY="42.0" mnemonicParsing="false" onAction="#VoltarParaTelaAnterior" opacity="0.0" prefHeight="49.0" prefWidth="51.0" style="-fx-background-radius: 30px;" text="Button" />
+      <Button fx:id="btRelatorio" layoutX="1012.0" layoutY="87.0" mnemonicParsing="false" opacity="0.0" prefHeight="12.0" prefWidth="100.0" style="-fx-background-radius: 40;" text="Relatorio">
+         <font>
+            <Font size="5.0" />
+         </font>
+      </Button>
+      <TextField fx:id="tfProcurarCliente" layoutX="505.0" layoutY="78.0" prefHeight="25.0" prefWidth="249.0" promptText="Procurar Cliente..." style="-fx-border-color: blue;" />
+   </children>
+</AnchorPane>

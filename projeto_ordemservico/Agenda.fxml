@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="-709" prefWidth="1260" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.projeto_ordemservico.projeto_ordemservico.AgendaController">
+   <children>
+      <ImageView fitHeight="709.0" fitWidth="1260.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../Imagens/tela%20de%20agenda.png" />
+         </image></ImageView>
+      <Button fx:id="btRelatorio" layoutX="1009.0" layoutY="85.0" mnemonicParsing="false" opacity="0.0" prefHeight="10.0" prefWidth="102.0" style="-fx-background-radius: 40;" text="Relatorio">
+         <font>
+            <Font size="6.0" />
+         </font>
+      </Button>
+      <Button fx:id="btVoltar" layoutX="1154.0" layoutY="41.0" mnemonicParsing="false" opacity="0.0" prefHeight="51.0" prefWidth="52.0" style="-fx-background-radius: 40;" text="voltar" />
+   </children>
+</AnchorPane>

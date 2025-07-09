@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="709" maxWidth="1265.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="709.0" prefWidth="1265.0" style="-fx-background-color: #0A0F24;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ImageView fitHeight="709.0" fitWidth="1260.0" layoutX="5.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../Imagens/tela de estoque.png" />
+         </image>
+      </ImageView>
+      <TableView fx:id="tbPeças" layoutX="469.0" layoutY="142.0" prefHeight="545.0" prefWidth="750.0" style="-fx-background-color: #E0FFFF;">
+        <columns>
+          <TableColumn prefWidth="90.33334350585938" text="id_peca" />
+          <TableColumn prefWidth="103.6666259765625" text="nome" />
+            <TableColumn prefWidth="105.66668701171875" text="descricao" />
+            <TableColumn prefWidth="107.66668701171875" text="preco_unitario" />
+            <TableColumn prefWidth="166.99993896484375" text="quantidade_estoque" />
+            <TableColumn minWidth="0.0" prefWidth="175.3333740234375" text="estoque_minimo" />
+        </columns>
+      </TableView>
+      <TableView fx:id="tbAvisos" layoutX="32.0" layoutY="142.0" prefHeight="545.0" prefWidth="371.0" style="-fx-background-color: #E0FFFF;">
+        <columns>
+          <TableColumn prefWidth="128.6666717529297" text="id_pecas_ultilizadas" />
+          <TableColumn prefWidth="77.0" style="-fx-backgroud-color: #87CEEB;" text="id_aparelho" />
+            <TableColumn prefWidth="70.33334350585938" text="id_peca" />
+            <TableColumn prefWidth="95.66668701171875" text="quantidade" />
+        </columns>
+      </TableView>
+      <Button fx:id="btVoltarEstoque" layoutX="975.0" layoutY="31.0" mnemonicParsing="false" opacity="0.0" prefHeight="46.0" prefWidth="46.0" style="-fx-background-radius: 30px;" text="Voltar" />
+      <TextField fx:id="txPesquisarPeça" layoutX="562.0" layoutY="58.0" prefHeight="25.0" prefWidth="241.0" promptText="Pesquisar peça" style="-fx-border-color: blue;" />
+      <Button fx:id="btRelatorioEstoque" layoutX="854.0" layoutY="72.0" mnemonicParsing="false" opacity="0.0" prefHeight="10.0" prefWidth="86.0" style="-fx-background-radius: 50;" text="Relatorio">
+         <font>
+            <Font size="1.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

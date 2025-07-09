@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="709" prefWidth="1260" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.projeto_ordemservico.projeto_ordemservico.EditarClientesController">
+   <children>
+      <ImageView fitHeight="709.0" fitWidth="1260.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../Imagens/tela%20de%20editar%20clientes.png" />
+         </image>
+      </ImageView>
+      <Button fx:id="Btvoltar" layoutX="332.0" layoutY="527.0" mnemonicParsing="false" onAction="#VoltarParaTelaAnterior" opacity="0.0" prefHeight="51.0" prefWidth="173.0" style="-fx-background-radius: 30px;" text="Voltar" />
+      <Button fx:id="BtSalvar" layoutX="765.0" layoutY="525.0" mnemonicParsing="false" onAction="#salvarEdicoes" opacity="0.0" prefHeight="51.0" prefWidth="166.0" text="Button" />
+      <TextField fx:id="emailField" layoutX="656.0" layoutY="413.0" prefHeight="60.0" prefWidth="387.0" promptText="Insira o E-mail:" style="-fx-background-color: white; -fx-text-fill: black; -fx-background-radius: 15; -fx-border-color: blue; -fx-border-radius: 15;" />
+      <TextField fx:id="cepField" layoutX="655.0" layoutY="330.0" prefHeight="60.0" prefWidth="387.0" promptText="Insira o CEP:" style="-fx-background-color: white; -fx-text-fill: black; -fx-background-radius: 15; -fx-border-color: blue; -fx-border-radius: 15;" />
+      <TextField fx:id="enderecoField" layoutX="654.0" layoutY="241.0" prefHeight="60.0" prefWidth="387.0" promptText="Insira o Endereço:" style="-fx-background-color: white; -fx-text-fill: black; -fx-background-radius: 15; -fx-border-color: blue; -fx-border-radius: 15;" />
+      <TextField fx:id="nomeField" layoutX="219.0" layoutY="241.0" prefHeight="60.0" prefWidth="387.0" promptText="Insira o Nome:" style="-fx-background-color: white; -fx-text-fill: black; -fx-background-radius: 15; -fx-border-color: blue; -fx-border-radius: 15;" />
+      <TextField fx:id="cpfField" layoutX="223.0" layoutY="330.0" prefHeight="60.0" prefWidth="173.0" promptText="Insira o CPF:" style="-fx-background-color: white; -fx-text-fill: black; -fx-background-radius: 15; -fx-border-color: blue; -fx-border-radius: 15;" />
+      <TextField fx:id="cnpjField" layoutX="434.0" layoutY="330.0" prefHeight="60.0" prefWidth="173.0" promptText="Insira o CNPJ:" style="-fx-background-color: white; -fx-text-fill: black; -fx-background-radius: 15; -fx-border-color: blue; -fx-border-radius: 15;" />
+      <TextField fx:id="telefoneField" layoutX="278.0" layoutY="412.0" prefHeight="60.0" prefWidth="272.0" promptText="Insira O Telefone:" style="-fx-background-color: white; -fx-text-fill: black; -fx-background-radius: 15; -fx-border-color: blue; -fx-border-radius: 15;" />
+   </children>
+</AnchorPane>
