@@ -1,0 +1,284 @@
+package com.projeto_ordemservico.projeto_ordemservico;
+
+import java.io.File;
+import java.io.FileOutputStream; 
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import Model.Peca;
+import Model.avisos;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+
+// Importações do iTextPDF
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.Phrase; 
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfPCell; 
+import com.itextpdf.text.Font; 
+import com.itextpdf.text.FontFactory; 
+import com.itextpdf.text.BaseColor; 
+
+public class EstoqueController {
+
+    @FXML private Button BtVoltar;
+    @FXML private Button BtGerarRelatorioPecas;
+
+    @FXML private TableView<Peca> TabelaPeca;
+    @FXML private TableColumn<Peca, Integer> id_peca;
+    @FXML private TableColumn<Peca, String> nome_peca;
+    @FXML private TableColumn<Peca, String> descricao_peca;
+    @FXML private TableColumn<Peca, Double> preco_unitario_peca;
+    @FXML private TableColumn<Peca, Integer> quantidade_estoque_peca;
+    @FXML private TableColumn<Peca, Integer> estoque_minimo_peca;
+    private ObservableList<Peca> listaPeca;
+
+    @FXML private TableView<avisos> Tabelaavisos;
+    @FXML private TableColumn<avisos, Integer> id_peca_avisos;
+    @FXML private TableColumn<avisos, String> nome_avisos;
+    @FXML private TableColumn<avisos, Integer> quantidade_estoque_avisos;
+    @FXML private TableColumn<avisos, Integer> estoque_minimo_avisos;
+    private ObservableList<avisos> listaavisos;
+
+    @FXML
+    public void initialize() {
+        id_peca.setCellValueFactory(new PropertyValueFactory<>("id_peca"));
+        nome_peca.setCellValueFactory(new PropertyValueFactory<>("nome"));
+        descricao_peca.setCellValueFactory(new PropertyValueFactory<>("descricao"));
+        preco_unitario_peca.setCellValueFactory(new PropertyValueFactory<>("preco_unitario"));
+        quantidade_estoque_peca.setCellValueFactory(new PropertyValueFactory<>("quantidade_estoque"));
+        estoque_minimo_peca.setCellValueFactory(new PropertyValueFactory<>("estoque_minimo"));
+        loadPecasFromDatabase();
+
+        id_peca_avisos.setCellValueFactory(new PropertyValueFactory<>("id_peca"));
+        nome_avisos.setCellValueFactory(new PropertyValueFactory<>("nome"));
+        quantidade_estoque_avisos.setCellValueFactory(new PropertyValueFactory<>("quantidade_estoque"));
+        estoque_minimo_avisos.setCellValueFactory(new PropertyValueFactory<>("estoque_minimo"));
+        loadavisosFromDatabase();
+    }
+
+    private void loadPecasFromDatabase() {
+        listaPeca = FXCollections.observableArrayList();
+        final String URL = "jdbc:mysql://localhost:3306/Projeto_TCC_gil";
+        final String USER = "root";
+        final String PASSWORD = "";
+
+        String query = "SELECT * FROM Peca";
+
+        try (
+                Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+                PreparedStatement stmt = conn.prepareStatement(query);
+                ResultSet rs = stmt.executeQuery()
+        ) {
+            while (rs.next()) {
+                Peca peca = new Peca(
+                        rs.getInt("id_peca"),
+                        rs.getString("nome_peca"),
+                        rs.getString("descricao_peca"),
+                        rs.getDouble("preco_unitario_peca"),
+                        rs.getInt("quantidade_estoque_peca"),
+                        rs.getInt("estoque_minimo_peca")
+                );
+                listaPeca.add(peca);
+            }
+            TabelaPeca.setItems(listaPeca);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.err.println("Erro ao carregar peças do banco de dados: " + e.getMessage());
+            showAlert(Alert.AlertType.ERROR, "Erro", "Erro ao carregar peças do banco de dados.", e.getMessage());
+        }
+    }
+
+    private void loadavisosFromDatabase() {
+        listaavisos = FXCollections.observableArrayList();
+        final String URL = "jdbc:mysql://localhost:3306/Projeto_TCC_gil";
+        final String USER = "root";
+        final String PASSWORD = "";
+
+        String query = "SELECT * FROM avisos";
+
+        try (
+                Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+                PreparedStatement stmt = conn.prepareStatement(query);
+                ResultSet rs = stmt.executeQuery()
+        ) {
+            while (rs.next()) {
+                avisos aviso = new avisos(
+                        rs.getInt("id_peca"),
+                        rs.getString("nome_aviso"),
+                        rs.getInt("quantidade_estoque_aviso"),
+                        rs.getInt("estoque_minimo_aviso")
+                );
+                listaavisos.add(aviso);
+            }
+            Tabelaavisos.setItems(listaavisos);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.err.println("Erro ao carregar avisos do banco de dados: " + e.getMessage());
+            showAlert(Alert.AlertType.ERROR, "Erro", "Erro ao carregar avisos do banco de dados.", e.getMessage());
+        }
+    }
+
+    @FXML
+    public void VoltarParaTelaAnterior() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("PagInicial.fxml"));
+        Parent root = loader.load();
+        if (NavegacaoTelas.mainStage != null) {
+            NavegacaoTelas.mainStage.setScene(new Scene(root));
+            NavegacaoTelas.mainStage.show();
+        } else {
+            System.err.println("Erro: mainStage não foi inicializado em NavegacaoTelas.");
+            showAlert(Alert.AlertType.ERROR, "Erro de Navegação", "Não foi possível retornar à tela inicial.", "A janela principal não foi inicializada corretamente.");
+        }
+    }
+
+    //para gerar relatório pdf
+
+    @FXML
+    private void gerarRelatorioPecas() {
+        String userHome = System.getProperty("user.home");
+        File defaultDirectory = new File(userHome, "Documents");
+        if (!defaultDirectory.exists()) {
+            defaultDirectory.mkdirs(); // Cria a pasta "Documents" se ela não existir
+        }
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Salvar Relatório de Peças em PDF");
+        fileChooser.setInitialDirectory(defaultDirectory);
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Arquivos PDF", "*.pdf"));
+        File file = fileChooser.showSaveDialog(new Stage());
+
+        if (file != null) {
+            Document document = new Document();
+            try {
+                PdfWriter.getInstance(document, new FileOutputStream(file));
+                document.open();
+
+                // Título do Relatório
+                Font titleFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 20, BaseColor.BLACK);
+                Paragraph title = new Paragraph("Relatório de Controle de Peças", titleFont);
+                title.setAlignment(Paragraph.ALIGN_CENTER);
+                title.setSpacingAfter(20); 
+                document.add(title);
+
+                // Criar Tabela para as peças
+                PdfPTable table = new PdfPTable(6);
+                table.setWidthPercentage(100); 
+                table.setSpacingBefore(10f); // Espaçamento antes da tabela
+                table.setSpacingAfter(10f); // Espaçamento depois da tabela
+
+                float[] columnWidths = {1f, 2f, 3f, 1.5f, 1.5f, 1.5f};
+                table.setWidths(columnWidths);
+
+                Font headerFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12, BaseColor.WHITE);
+                BaseColor headerBackground = new BaseColor(50, 100, 150); 
+
+                // Adicionar cabeçalho da tabela
+                addCellToTable(table, "ID Peça", headerFont, headerBackground);
+                addCellToTable(table, "Nome", headerFont, headerBackground);
+                addCellToTable(table, "Descrição", headerFont, headerBackground);
+                addCellToTable(table, "Preço Unit.", headerFont, headerBackground);
+                addCellToTable(table, "Qtd. Estoque", headerFont, headerBackground);
+                addCellToTable(table, "Estoque Mín.", headerFont, headerBackground);
+
+        
+                Font dataFont = FontFactory.getFont(FontFactory.HELVETICA, 10, BaseColor.BLACK);
+
+                // Adicionar dados das peças
+                for (Peca peca : listaPeca) {
+                    addCellToTable(table, String.valueOf(peca.getId_peca()), dataFont, null);
+                    addCellToTable(table, peca.getNome(), dataFont, null);
+                    addCellToTable(table, peca.getDescricao(), dataFont, null);
+                    addCellToTable(table, String.format("%.2f", peca.getPreco_unitario()), dataFont, null);
+                    addCellToTable(table, String.valueOf(peca.getQuantidade_estoque()), dataFont, null);
+                    addCellToTable(table, String.valueOf(peca.getEstoque_minimo()), dataFont, null);
+                }
+                document.add(table);
+
+                // Adicionar Avisos de Estoque Baixo (opcional, mas útil)
+                if (!listaavisos.isEmpty()) {
+                    Paragraph subtitleAvisos = new Paragraph("Avisos de Estoque Baixo", titleFont);
+                    subtitleAvisos.setAlignment(Paragraph.ALIGN_CENTER);
+                    subtitleAvisos.setSpacingBefore(30);
+                    subtitleAvisos.setSpacingAfter(15);
+                    document.add(subtitleAvisos);
+
+                    PdfPTable tableAvisos = new PdfPTable(4); 
+                    tableAvisos.setWidthPercentage(100);
+                    tableAvisos.setSpacingBefore(10f);
+                    tableAvisos.setSpacingAfter(10f);
+
+                    float[] columnWidthsAvisos = {1f, 3f, 2f, 2f};
+                    tableAvisos.setWidths(columnWidthsAvisos);
+
+                    // Cabeçalho da tabela de avisos
+                    addCellToTable(tableAvisos, "ID Peça", headerFont, headerBackground);
+                    addCellToTable(tableAvisos, "Nome da Peça (Aviso)", headerFont, headerBackground);
+                    addCellToTable(tableAvisos, "Qtd. em Estoque", headerFont, headerBackground);
+                    addCellToTable(tableAvisos, "Estoque Mínimo", headerFont, headerBackground);
+
+                    for (avisos aviso : listaavisos) {
+                        addCellToTable(tableAvisos, String.valueOf(aviso.getId_peca()), dataFont, null);
+                        addCellToTable(tableAvisos, aviso.getNome(), dataFont, null);
+                        addCellToTable(tableAvisos, String.valueOf(aviso.getQuantidade_estoque()), dataFont, null);
+                        addCellToTable(tableAvisos, String.valueOf(aviso.getEstoque_minimo()), dataFont, null);
+                    }
+                    document.add(tableAvisos);
+                }
+
+
+                document.close();
+                showAlert(Alert.AlertType.INFORMATION, "Sucesso", "Relatório Gerado", "O relatório de peças em PDF foi salvo em:\n" + file.getAbsolutePath());
+            } catch (DocumentException | IOException e) {
+                e.printStackTrace();
+                showAlert(Alert.AlertType.ERROR, "Erro", "Erro ao gerar relatório.", "Não foi possível salvar o arquivo PDF:\n" + e.getMessage());
+            }
+        }
+    }
+
+    // Método auxiliar para adicionar células à tabela PDF
+    private void addCellToTable(PdfPTable table, String text, Font font, BaseColor backgroundColor) {
+        PdfPCell cell = new PdfPCell(new Phrase(text, font));
+        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell.setPadding(5);
+        if (backgroundColor != null) {
+            cell.setBackgroundColor(backgroundColor);
+        }
+        table.addCell(cell);
+    }
+
+    // Método auxiliar para exibir alertas
+    private void showAlert(Alert.AlertType type, String title, String header, String content) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+
+    public void setTabelaPeca(TableView<Peca> tabelaPeca) {
+        TabelaPeca = tabelaPeca;
+    }
+
+    public void setTabelaavisos(TableView<avisos> tabelaavisos) {
+        Tabelaavisos = tabelaavisos;
+    }
+}
