@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
@@ -40,6 +39,15 @@ public class AgendaController {
         return ResponseEntity.status(HttpStatus.CREATED).body(savedAgenda);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<AgendaModel> atualizarAgenda(@PathVariable Long id, @RequestBody AgendaModel agenda) {
+        AgendaModel updatedAgenda = agendaService.atualizar(id, agenda);
+        if (updatedAgenda != null) {
+            return ResponseEntity.ok(updatedAgenda);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarAgenda(@PathVariable Long id) {
         if (agendaService.deletar(id)) {
@@ -53,7 +61,7 @@ public class AgendaController {
     public ResponseEntity<List<AgendaModel>> buscarAgendasPorAparelho(@RequestBody AparelhoModel aparelho) {
         List<AgendaModel> agendas = agendaService.buscarPorAparelho(aparelho);
         if (agendas.isEmpty()) {
-            return ResponseEntity.noContent().build(); 
+            return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok(agendas);
     }
@@ -62,7 +70,7 @@ public class AgendaController {
     @GetMapping("/byDateTime")
     public ResponseEntity<List<AgendaModel>> buscarAgendasPorDataHoraExata(@RequestParam("dateTime") String dateTimeString) {
         try {
-            LocalDateTime dateTime = LocalDateTime.parse(dateTimeString); 
+            LocalDateTime dateTime = LocalDateTime.parse(dateTimeString);
             List<AgendaModel> agendas = agendaService.buscarPorDataAgendada(dateTime);
             if (agendas.isEmpty()) {
                 return ResponseEntity.noContent().build();
@@ -73,13 +81,12 @@ public class AgendaController {
         }
     }
 
-  
     @GetMapping("/byDate")
     public ResponseEntity<List<AgendaModel>> buscarAgendasPorData(@RequestParam("date") String dateString) {
         try {
-            LocalDate date = LocalDate.parse(dateString); 
-            List<AgendaModel> agendas = null; 
-            if (agendas == null || agendas.isEmpty()) {
+            LocalDate date = LocalDate.parse(dateString);
+            List<AgendaModel> agendas = agendaService.buscarPorData(date); // Corrected
+            if (agendas.isEmpty()) {
                 return ResponseEntity.noContent().build();
             }
             return ResponseEntity.ok(agendas);
@@ -87,5 +94,4 @@ public class AgendaController {
             return ResponseEntity.badRequest().build();
         }
     }
-
 }
