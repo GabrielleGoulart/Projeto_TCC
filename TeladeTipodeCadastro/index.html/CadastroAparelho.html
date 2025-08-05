@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="css/CadastroAparelho.css" />
+  <title>Cadastro de Aparelho | TaskUP</title>
+</head>
+<body>
+  <div class="topo">
+    <div class="logo">TaskUP</div>
+    <nav class="menu">
+      <a href="#">Início</a>
+      <a href="#">Clientes</a>
+      <a href="#">Aparelhos</a>
+      <a href="#">Tabelas</a>
+      <a href="#">Agenda</a>
+    </nav>
+    <div class="usuario">Olá, Técnico</div>
+  </div>
+
+  <div class="container">
+    <h1>Cadastro de Aparelho</h1>
+    <form id="aparelhoForm" enctype="multipart/form-data">
+      
+      <div class="input-group">
+        <label for="nomeAparelho">Nome do Aparelho <span class="required">*</span></label>
+        <input type="text" id="nomeAparelho" name="nome_aparelho" maxlength="50" required />
+      </div>
+
+      <div class="input-group">
+        <label for="defeito">Defeito <span class="required">*</span></label>
+        <textarea id="defeito" name="defeito" maxlength="200" required></textarea>
+      </div>
+
+      <div class="input-group">
+        <label for="servicosExecutados">Serviços Executados <span class="required">*</span></label>
+        <textarea id="servicosExecutados" name="servico_executados" maxlength="200" required></textarea>
+      </div>
+
+      <div class="input-group">
+        <label for="pecasAplicadas">Peças Aplicadas (opcional)</label>
+        <textarea id="pecasAplicadas" name="pecas_aplicadas" maxlength="255" placeholder="Exemplo: Tela, bateria..."></textarea>
+      </div>
+
+      <div class="input-group">
+        <label for="nomeTecnico">Nome do Técnico <span class="required">*</span></label>
+        <input type="text" id="nomeTecnico" name="nome_tecnico" maxlength="100" required />
+      </div>
+
+      <div class="input-group">
+        <label for="dataCadastro">Data do Cadastro <span class="required">*</span></label>
+        <input type="datetime-local" id="dataCadastro" name="data_cadastro" required />
+      </div>
+
+      <div class="input-group">
+        <label for="observacoes">Observações <span class="required">*</span></label>
+        <textarea id="observacoes" name="observacoes" maxlength="200" required></textarea>
+      </div>
+
+      <div class="input-group">
+        <label for="valorTotal">Valor Total (R$) <span class="required">*</span></label>
+        <input type="number" id="valorTotal" name="valor_total" min="0" step="0.01" required />
+      </div>
+
+      <div class="input-group">
+        <label for="fotoAparelho">Foto do Aparelho (opcional)</label>
+        <input type="file" id="fotoAparelho" name="foto_aparelho" accept="image/*" />
+      </div>
+
+      <button type="submit" class="submit-btn">Cadastrar Aparelho</button>
+    </form>
+  </div>
+
+  <script>
+    // Configurar a data padrão para "dataCadastro" como o datetime atual no formato local:
+    const dataCadastroInput = document.getElementById('dataCadastro');
+    if (dataCadastroInput) {
+      const now = new Date();
+      const localISOTime = now.toISOString().slice(0,16); // YYYY-MM-DDTHH:mm
+      dataCadastroInput.value = localISOTime;
+    }
+  </script>
+</body>
+</html>

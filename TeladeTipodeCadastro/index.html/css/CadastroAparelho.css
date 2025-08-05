@@ -1,0 +1,99 @@
+ 
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #fff;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+    }
+    .topo {
+      background-color: #24c0eb;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: white;
+      font-weight: bold;
+      font-size: 24px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    nav.menu a {
+      color: white;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    nav.menu a:hover {
+      text-decoration: underline;
+    }
+    .usuario {
+      font-weight: normal;
+      font-size: 16px;
+    }
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 30px;
+      border: 2px solid #24c0eb;
+      border-radius: 16px;
+      box-shadow: 0 4px 10px rgba(36, 192, 235, 0.2);
+      background: #fff;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 15px;
+    }
+    label {
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    input[type="text"],
+    input[type="number"],
+    input[type="datetime-local"],
+    textarea {
+      padding: 10px;
+      font-size: 16px;
+      border: 2px solid #24c0eb;
+      border-radius: 8px;
+      resize: vertical;
+    }
+    textarea {
+      min-height: 80px;
+    }
+    input[type="file"] {
+      padding: 5px 0;
+    }
+    .required {
+      color: red;
+      margin-left: 4px;
+    }
+    .submit-btn {
+      width: 100%;
+      padding: 14px;
+      font-size: 18px;
+      background-color: #24c0eb;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-top: 20px;
+    }
+    .submit-btn:hover {
+      background-color: #1b9ec9;
+    }
+    @media (max-width: 600px) {
+      .container {
+        margin: 20px 10px;
+        padding: 20px;
+      }
+    }

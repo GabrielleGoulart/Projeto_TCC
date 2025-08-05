@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="css/CadastroCliente.css" />
+</head>
+<body>
+  
+  <!-- TOPO DO SITE -->
+  <div class="topo">
+    <div class="logo">TaskUP</div>
+    <nav class="menu">
+      <a href="#">Início</a>
+      <a href="#">Clientes</a>
+      <a href="#">Aparelhos</a>
+      <a href="#">Tabelas</a>
+      <a href="#">Agenda</a>
+    </nav>
+    <div class="usuario">Olá, Técnico</div>
+  </div>
+<body>
+
+  >
+
+  <!-- CONTAINER PRINCIPAL -->
+  <div class="container">
+    <h1>Cadastro de Cliente</h1>
+    <p class="description">Preencher corretamente todos os campos do cliente <span class="required">*</span></p>
+
+    <!-- Tipo de Pessoa -->
+    <div class="client-type">
+      <label>
+        <input type="radio" name="tipo" value="pf" checked />
+        Pessoa Física
+      </label>
+      <label>
+        <input type="radio" name="tipo" value="pj" />
+        Pessoa Jurídica
+      </label>
+    </div>
+
+    <!-- Documento + Buscar -->
+    <div class="doc-search">
+      <div class="input-group">
+        <label for="cpfCnpj" id="cpfCnpjLabel">CPF <span class="required">*</span></label>
+        <input type="text" id="cpfCnpj" placeholder="Insira o CPF" required />
+      </div>
+      <button type="button" id="buscarBtn" class="submit-btn" style="width: auto; padding: 10px 20px; font-size: 14px;">Buscar Cliente</button>
+    </div>
+
+    <!-- Formulário de Cliente -->
+    <form id="clienteForm">
+      <div class="form-grid">
+        <!-- Pessoa Física -->
+        <div id="nomePessoaFisica">
+          <div class="input-group">
+            <label>Nome <span class="required">*</span></label>
+            <input type="text" required />
+          </div>
+          <div class="input-group">
+            <label>Sobrenome <span class="required">*</span></label>
+            <input type="text" required />
+          </div>
+        </div>
+
+        <!-- Pessoa Jurídica -->
+        <div id="nomePessoaJuridica" style="display: none;" class="full-width">
+          <div class="input-group">
+            <label>Nome da Empresa <span class="required">*</span></label>
+            <input type="text" required />
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label>Telefone <span class="required">*</span></label>
+          <input type="tel" placeholder="(DDD) Telefone" required />
+        </div>
+
+        <div class="input-group">
+          <label>E-mail <span class="required">*</span></label>
+          <input type="email" required />
+        </div>
+
+        <div class="input-group">
+          <label>CEP <span class="required">*</span></label>
+          <input type="text" required />
+        </div>
+
+        <div class="input-group full-width">
+          <label>Endereço</label>
+          <input type="text" />
+        </div>
+
+        <div class="input-group">
+          <label>Bairro <span class="required">*</span></label>
+          <input type="text" required />
+        </div>
+
+        <div class="input-group">
+          <label>Cidade <span class="required">*</span></label>
+          <input type="text" required />
+        </div>
+
+        <div class="input-group">
+          <label>Estado <span class="required">*</span></label>
+          <input type="text" required />
+        </div>
+      </div>
+
+      <button type="submit" class="submit-btn">Cadastrar Cliente</button>
+    </form>
+  </div>
+
+
+  <!-- Script para alternar Pessoa Física / Jurídica -->
+  <script>
+    const radioPF = document.querySelector('input[value="pf"]');
+    const radioPJ = document.querySelector('input[value="pj"]');
+    const docLabel = document.getElementById('cpfCnpjLabel');
+    const docInput = document.getElementById('cpfCnpj');
+    const nomePF = document.getElementById('nomePessoaFisica');
+    const nomePJ = document.getElementById('nomePessoaJuridica');
+
+    function updateDocField() {
+      if (radioPF.checked) {
+        docLabel.textContent = 'CPF *';
+        docInput.placeholder = 'Insira o CPF';
+        nomePF.style.display = 'block';
+        nomePJ.style.display = 'none';
+      } else {
+        docLabel.textContent = 'CNPJ *';
+        docInput.placeholder = 'Insira o CNPJ';
+        nomePF.style.display = 'none';
+        nomePJ.style.display = 'block';
+      }
+    }
+
+    radioPF.addEventListener('change', updateDocField);
+    radioPJ.addEventListener('change', updateDocField);
+    updateDocField(); // Inicialização
+  </script>
+</body>
+</html>

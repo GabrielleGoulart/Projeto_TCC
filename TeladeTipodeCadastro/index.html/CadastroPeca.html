@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cadastro de Peça | TaskUP</title>
+   <link rel="stylesheet" href="css/CadastroPeca.css" />
+  </head>
+
+  <!-- TOPO DO SITE -->
+  <div class="topo">
+    <div class="logo">TaskUP</div>
+    <nav class="menu">
+      <a href="#">Início</a>
+      <a href="#">Clientes</a>
+      <a href="#">Aparelhos</a>
+      <a href="#">Tabelas</a>
+      <a href="#">Agenda</a>
+    </nav>
+    <div class="usuario">Olá, Técnico</div>
+  </div>
+
+  <!-- CONTAINER PRINCIPAL -->
+  <div class="container">
+    <header class="pagina">
+      <h1>Cadastro de Peça</h1>
+    </header>
+
+    <form>
+      <label for="peca">Peça</label>
+      <input type="text" id="peca" name="peca" placeholder="Nome da peça" required />
+
+      <label for="descricao">Descrição</label>
+      <textarea id="descricao" name="descricao" placeholder="Descrição detalhada da peça" required></textarea>
+
+      <label for="preco">Preço Unitário (R$)</label>
+      <input type="number" id="preco" name="preco" step="0.01" min="0" placeholder="Ex: 350.00" required />
+
+      <label for="estoque">Quantidade em Estoque</label>
+      <input type="number" id="estoque" name="estoque" min="0" placeholder="Ex: 10" required />
+
+      <label for="minimo">Estoque Mínimo</label>
+      <input type="number" id="minimo" name="minimo" min="0" placeholder="Ex: 3" required />
+
+      <button type="submit" class="btn-salvar">Cadastrar</button>
+    </form>
+  </div>
+
+</body>
+</html>

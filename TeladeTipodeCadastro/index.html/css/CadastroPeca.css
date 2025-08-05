@@ -1,0 +1,144 @@
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      background-color: #ffffff;
+      font-family: 'Inter', sans-serif;
+      color: #333;
+      min-height: 100vh;
+      overflow-y: auto;
+    }
+
+    /* ====== CABEÇALHO COM CARA DE SITE ====== */
+    .topo {
+      background-color: #24c0eb;
+      border-bottom: 2px solid #24c0eb;
+      padding: 20px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .menu {
+      display: flex;
+      gap: 30px;
+    }
+
+    .menu a {
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .menu a:hover {
+      color: #1b9ec9;
+    }
+
+    .usuario {
+      background-color: #24c0eb;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-weight: bold;
+    }
+
+    header.pagina h1 {
+      font-size: 28px;
+      color: #333;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    /* ====== CONTAINER PRINCIPAL ====== */
+    .container {
+      width: 90%;
+      max-width: 600px;
+      margin: 40px auto;
+      background-color: #ffffff;
+      border: 2px solid #24c0eb;
+      border-radius: 16px;
+      box-shadow: 0 4px 10px rgba(36, 192, 235, 0.2);
+      padding: 30px;
+    }
+
+    /* ====== FORMULÁRIO DE CADASTRO ====== */
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    label {
+      font-weight: 600;
+      color: #333;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    textarea {
+      padding: 10px;
+      border: 2px solid #24c0eb;
+      border-radius: 8px;
+      font-size: 16px;
+      font-family: 'Inter', sans-serif;
+      resize: vertical;
+    }
+
+    textarea {
+      min-height: 80px;
+    }
+
+    .btn-salvar {
+      background-color: #24c0eb;
+      color: white;
+      border: none;
+      padding: 12px 0;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 18px;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-salvar:hover {
+      background-color: #1b9ec9;
+    }
+
+    /* RESPONSIVO */
+    @media (max-width: 768px) {
+      .topo {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+      }
+
+      .menu {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .container {
+        padding: 20px 15px;
+      }
+
+      input[type="text"],
+      input[type="number"],
+      textarea {
+        font-size: 14px;
+      }
+    }
+ 

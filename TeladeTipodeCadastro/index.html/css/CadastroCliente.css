@@ -1,0 +1,159 @@
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      font-family: 'Inter', sans-serif;
+      background-color: #ffffff;
+      color: #333;
+      min-height: 100vh;
+    }
+
+    /* ====== TOPO DO SITE ====== */
+    .topo {
+      background-color: #24c0eb;
+      border-bottom: 2px solid #24c0eb;
+      padding: 20px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .menu {
+      display: flex;
+      gap: 30px;
+    }
+
+    .menu a {
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .menu a:hover {
+      color: #1b9ec9;
+    }
+
+    .usuario {
+      background-color: #24c0eb;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-weight: bold;
+    }
+
+    /* ====== CONTAINER ====== */
+    .container {
+      width: 90%;
+      max-width: 800px;
+      margin: 40px auto;
+      background-color: #ffffff;
+      border: 2px solid #24c0eb;
+      border-radius: 16px;
+      box-shadow: 0 4px 10px rgba(36, 192, 235, 0.2);
+      padding: 30px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .description {
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+    .required {
+      color: red;
+    }
+
+    .client-type {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .doc-search {
+      display: flex;
+      gap: 20px;
+      align-items: flex-end;
+      margin-bottom: 30px;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .full-width {
+      grid-column: 1 / -1;
+    }
+
+    input, textarea {
+      padding: 10px;
+      border: 2px solid #24c0eb;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    .submit-btn {
+      margin-top: 30px;
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      background-color: #24c0eb;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .submit-btn:hover {
+      background-color: #1b9ec9;
+    }
+
+    @media (max-width: 768px) {
+      .topo {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+      }
+
+      .menu {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .doc-search {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+  

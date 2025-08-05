@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+  <meta charset="UTF-8" />
+  <title>TaskUp - Cadastro</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="css/TipodeCadastro.css" />
+</head>
+
+  <!-- Botão de voltar -->
+  <button class="back-button" onclick="history.back()">
+    <img src="Voltar.jpg" alt="Voltar" />
+  </button>
+
+  <!-- Cabeçalho com logo -->
+  <header>
+    <img src="LogoTaskUP.jpg" alt="TaskUp Logo" class="logo" />
+    <div class="slogan">Organização que gera resultado.</div>
+    <hr class="divider" />
+  </header>
+
+  <!-- Botões principais -->
+  <main>
+    <div class="button-container">
+      <button id="btnCadastroOS" class="image-button">
+        <img src="CadastroOrdemeServico.jpg" alt="Cadastro Ordem e Serviço" />
+      </button>
+      <button class="image-button" onclick="window.location.href='cadastro-pecas.html'">
+        <img src="CadastroPecas.jpg" alt="Cadastro Peças" />
+      </button>
+    </div>
+  </main>
+
+  <script>
+    const btnCadastroOS = document.getElementById('btnCadastroOS');
+    btnCadastroOS.addEventListener('click', () => {
+      window.location.href = 'CadastroOrdemeServico.html';
+    });
+  </script>
+</body>
+</html>
