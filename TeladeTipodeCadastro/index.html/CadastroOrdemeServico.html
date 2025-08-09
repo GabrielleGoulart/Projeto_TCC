@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro de Ordem de Serviço</title>
+  <link rel="stylesheet" href="css/CadastroOrdemeServico.css" />
+
+</head>
+<body>
+
+  <!-- Botão de voltar -->
+  <button class="back-button" onclick="history.back()">
+    <img src="Voltar.jpg" alt="Voltar" />
+  </button>
+  <!-- Cabeçalho com logo -->
+  <header>
+  <img src="LogoTaskUP.jpg" alt="TaskUp Logo" class="logo" />
+  <hr class="divider" />
+</header>
+
+  <div class="background-overlay"></div>
+  <div class="container">
+    <header class="header">
+      <h1 class="main-title">Cadastro</h1>
+    </header>
+    <form class="os-form">
+      <div class="client-type-selector">
+        <label class="client-type-option">
+          <input type="radio" name="clientType" value="pf" id="radioPf">
+          <span>Pessoa Física</span>
+        </label>
+        <label class="client-type-option">
+          <input type="radio" name="clientType" value="pj" id="radioPj">
+          <span>Pessoa Jurídica</span>
+        </label>
+      </div>
+
+      <div id="typeSpecificInputAndButton">
+        <div id="pfInput" class="input-group" style="display: none;">
+          <input type="text" id="cpfCliente" placeholder="Insira o CPF:" />
+        </div>
+        <div id="pjInput" class="input-group" style="display: none;">
+          <input type="text" id="cnpjCliente" placeholder="Insira o CNPJ:" />
+        </div>
+        <button type="button" id="searchClientBtn" class="btn-search-client" style="display: none;">Buscar Cliente</button>
+      </div>
+
+      <div id="additionalClientFields">
+        <!-- Parte do formulário com os campos completos -->
+        <div class="form-grid">
+          <div class="form-section client-data">
+            <div class="input-group">
+              <input type="text" id="nomeCliente" placeholder="Nome*" required />
+            </div>
+            <div class="input-group">
+              <input type="tel" id="telefoneCliente" placeholder="Telefone*" required />
+            </div>
+            <div class="input-group">
+              <input type="email" id="emailCliente" placeholder="Email" />
+            </div>
+            <div class="input-group">
+              <input type="text" id="cepCliente" placeholder="CEP" />
+            </div>
+            <div class="input-group">
+              <input type="text" id="enderecoCliente" placeholder="Endereço" />
+            </div>
+          </div>
+
+          <div class="form-section device-data">
+            <div class="input-group">
+              <input type="text" id="modeloAparelho" placeholder="Modelo*" required />
+            </div>
+            <div class="input-group">
+              <input type="text" id="defeitoAparelho" placeholder="Defeito" />
+            </div>
+            <div class="input-group">
+              <textarea id="servicoExecutado" placeholder="Serviço" rows="3"></textarea>
+            </div>
+            <div class="input-group">
+              <input type="text" id="pecasAparelho" placeholder="Peças" />
+            </div>
+            <div class="input-group">
+              <input type="text" id="nomeTecnico" placeholder="Técnico" />
+            </div>
+          </div>
+
+          <div class="form-section observations-values">
+            <div class="input-group">
+              <input type="date" id="dataOs" />
+            </div>
+            <div class="input-group">
+              <textarea id="observacaoAparelho" placeholder="Observações"></textarea>
+            </div>
+            <div class="input-group">
+              <input type="number" step="0.01" id="valorTotal" placeholder="Valor total" />
+            </div>
+            <button type="submit" class="btn-primary-cadastro">Cadastrar</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

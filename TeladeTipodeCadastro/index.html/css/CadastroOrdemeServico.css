@@ -1,0 +1,474 @@
+ @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+
+      /* Variáveis CSS para facilitar a manutenção */
+        :root {
+            --primary-bg-color: #0d1a26;
+            --input-bg-color: rgba(255, 255, 255, 0.15);
+            --input-border-color: rgba(255, 255, 255, 0.3);
+            --text-color-light: #f0f0f0;
+            --text-color-dark: #333;
+            --button-bg-color: #007bff;
+            --button-hover-color: #0056b3;
+            --header-bg-color: rgba(0, 0, 0, 0.4);
+            --placeholder-color: rgba(255, 255, 255, 0.7);
+            --search-btn-color: #4CAF50;
+            --search-btn-hover-color: #45a049;
+        }
+
+        /* Estilos Globais e Layout da Página */
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            width: 100vw;
+            overflow: hidden; /* Garante que o overlay não cause scroll */
+            position: relative;
+            color: var(--text-color-light);
+            background-color: var(--primary-bg-color);
+        }
+
+        .background-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* Certifique-se de que o caminho da imagem esteja correto */
+            background-image: url('imagem_TeladeCadastropng.jpg');
+            background-size: cover;
+            background-position: center;
+            filter: brightness(0.4) grayscale(0.7); /* Efeito visual no background */
+            z-index: -1; /* Mantém o overlay atrás do conteúdo */
+        }
+
+        .container {
+            width: 95%;
+            max-width: 1200px;
+            background-color: rgba(0, 0, 0, 0.7); /* Fundo semi-transparente para o formulário */
+            border-radius: 15px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            box-sizing: border-box; /* Inclui padding na largura/altura total */
+            display: flex;
+            flex-direction: column;
+            max-height: 95vh; /* Limita a altura para que o conteúdo possa rolar */
+            overflow-y: auto; /* Adiciona scroll se o conteúdo for muito alto */
+        }
+
+        /* Estilos do Cabeçalho */
+        .header {
+            display: flex;
+            justify-content: space-between; /* Espaça os itens do cabeçalho */
+            align-items: center;
+            padding-bottom: 25px;
+            margin-bottom: 25px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Linha divisória */
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px; /* Espaço entre a imagem e o texto do logo */
+        }
+
+        .logo-img {
+            width: 45px;
+            height: 45px;
+            border-radius: 8px; /* Cantos arredondados para a imagem do logo */
+        }
+
+        .logo-text {
+            font-size: 1.6em;
+            font-weight: 700;
+            color: #4CAF50; /* Cor verde para o texto do logo */
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .main-title {
+            font-size: 1.8em;
+            font-weight: 300;
+            color: var(--text-color-light);
+            margin: 0;
+        }
+
+        /* Ajustes para o botão "Voltar" */
+        .btn-back {
+            background: none;
+            border: 2px solid var(--input-border-color);
+            color: var(--text-color-light);
+            font-size: 1.5em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%; /* Torna o botão redondo */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            margin-left: 20px; /* Adiciona um pequeno espaçamento à esquerda do botão */
+        }
+
+        .btn-back:hover {
+            color: #fff;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-color: #fff;
+        }
+
+        /* Estilos do Formulário */
+        .os-form {
+            flex-grow: 1; /* Permite que o formulário ocupe o espaço disponível */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1.2fr 0.8fr; /* Define 3 colunas com larguras relativas */
+            gap: 25px; /* Espaço entre as células da grade */
+            flex-grow: 1;
+        }
+
+        .form-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .client-type-selector {
+            background-color: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 15px 20px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .client-type-option {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .client-type-option:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            border-color: #61dafb;
+        }
+
+        .client-type-option input[type="radio"] {
+            appearance: none; /* Esconde o radio button padrão */
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--text-color-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .client-type-option input[type="radio"]::before {
+            content: '';
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #4CAF50; /* Cor do círculo interno */
+            transform: scale(0); /* Escondido por padrão */
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .client-type-option input[type="radio"]:checked::before {
+            transform: scale(1); /* Exibe o círculo interno quando selecionado */
+        }
+
+        .client-type-option input[type="radio"]:checked {
+            border-color: #4CAF50;
+            background-color: rgba(76, 175, 80, 0.2);
+        }
+
+        .client-type-option span {
+            font-size: 1.1em;
+            font-weight: 500;
+            color: var(--text-color-light);
+        }
+
+        .input-group {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .input-group input,
+        .input-group textarea,
+        .input-group input[type="file"] {
+            width: 100%;
+            padding: 14px 18px;
+            background-color: var(--input-bg-color);
+            border: 1px solid var(--input-border-color);
+            border-radius: 10px;
+            color: var(--text-color-light);
+            font-size: 1em;
+            box-sizing: border-box;
+            outline: none; /* Remove a borda de foco padrão */
+            transition: border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .input-group input::placeholder,
+        .input-group textarea::placeholder {
+            color: var(--placeholder-color);
+        }
+
+        .input-group input:focus,
+        .input-group textarea:focus,
+        .input-group input[type="file"]:focus {
+            border-color: #61dafb; /* Cor de foco azul claro */
+            background-color: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 0 10px rgba(97, 218, 251, 0.6);
+        }
+
+        .input-group textarea {
+            resize: vertical; /* Permite redimensionar verticalmente */
+            min-height: 60px;
+        }
+
+        .large-textarea-container textarea {
+            min-height: 200px;
+        }
+
+        .input-group.input-duo {
+            display: flex;
+            gap: 15px;
+        }
+
+        .input-group.input-duo input {
+            flex: 1; /* Faz com que os inputs dividam o espaço igualmente */
+        }
+
+        #typeSpecificInputAndButton {
+            display: flex;
+            margin-bottom: 25px;
+            flex-direction: column; /* Padrão para mobile */
+            gap: 15px;
+        }
+
+        #typeSpecificInputAndButton .input-group {
+            flex-grow: 1;
+        }
+
+        .btn-search-client {
+            width: 100%;
+            padding: 12px 18px;
+            background-color: var(--search-btn-color);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .btn-search-client:hover {
+            background-color: var(--search-btn-hover-color);
+            transform: translateY(-2px); /* Efeito de elevação */
+        }
+
+        #additionalClientFields {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+        }
+
+        .input-group.file-upload {
+            position: relative;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .input-group.file-upload input[type="file"] {
+            opacity: 0; /* Esconde o input de arquivo padrão */
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+            z-index: 1; /* Garante que o input seja clicável */
+        }
+
+        .file-upload-label {
+            width: 100%;
+            padding: 14px 18px;
+            background-color: var(--input-bg-color);
+            border: 1px solid var(--input-border-color);
+            border-radius: 10px;
+            color: var(--placeholder-color);
+            font-size: 1em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .file-upload-label i {
+            color: var(--text-color-light);
+        }
+
+        .file-upload-label:hover {
+            border-color: #61dafb;
+            background-color: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 0 10px rgba(97, 218, 251, 0.6);
+        }
+
+        .file-upload-label span {
+            flex-grow: 1;
+            color: var(--text-color-light);
+        }
+
+        /* Botão de Cadastro Principal */
+        .btn-primary-cadastro {
+            width: 100%;
+            padding: 15px 20px;
+            background-color: var(--button-bg-color);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin-top: auto; /* Empurra o botão para o final do container */
+            align-self: flex-end; /* Alinha o botão à direita no container flex */
+        }
+
+        .btn-primary-cadastro:hover {
+            background-color: var(--button-hover-color);
+            transform: translateY(-2px);
+        }
+
+        /* Media Queries para Responsividade */
+        @media (min-width: 1201px) {
+            .form-grid {
+                grid-template-columns: 1.2fr 1.2fr 0.8fr;
+            }
+            #typeSpecificInputAndButton {
+                flex-direction: row; /* Volta para linha em telas maiores */
+                align-items: center;
+            }
+            #typeSpecificInputAndButton .btn-search-client {
+                width: auto;
+                min-width: 120px;
+                margin-left: 15px;
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .container {
+                max-width: 900px;
+            }
+            .form-grid {
+                grid-template-columns: repeat(2, 1fr); /* Duas colunas em telas médias */
+                gap: 20px;
+            }
+            .form-section.observations-values {
+                grid-column: span 2; /* Observações e valores ocupam duas colunas */
+            }
+            .large-textarea-container textarea {
+                min-height: 150px;
+            }
+            .client-type-selector {
+                flex-wrap: wrap; /* Quebra em múltiplas linhas se necessário */
+                justify-content: center;
+                gap: 15px;
+            }
+            #typeSpecificInputAndButton {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                width: 95%;
+                max-height: 90vh;
+            }
+            .header {
+                flex-direction: column; /* Itens do cabeçalho em coluna */
+                align-items: center;
+                text-align: center;
+                gap: 15px;
+                padding-bottom: 15px;
+                margin-bottom: 15px;
+            }
+            /* Altera a direção do logo e do botão de voltar para coluna */
+            .logo-section {
+                flex-direction: column;
+                gap: 5px;
+            }
+            /* Ajusta o espaçamento do botão de voltar quando em coluna */
+            .btn-back {
+                margin-left: 0; /* Remove o margin-left que era para alinhamento em linha */
+                margin-top: 10px; /* Adiciona um espaço acima */
+            }
+            .main-title {
+                font-size: 1.6em;
+            }
+            .header-actions {
+                flex-direction: column; /* Ações do cabeçalho em coluna */
+                gap: 10px;
+                width: 100%;
+            }
+            /* Remove esta regra, pois o botão "cliente-exists-text" não existe mais */
+            /* .client-exists-text, .btn-back {
+                width: 100%;
+                max-width: 250px;
+                box-sizing: border-box;
+            } */
+            .form-grid {
+                grid-template-columns: 1fr; /* Uma coluna em telas pequenas */
+                gap: 15px;
+            }
+            .form-section.observations-values {
+                grid-column: span 1;
+            }
+            .input-group.input-duo {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .input-group input,
+            .input-group textarea {
+                padding: 10px 12px;
+                font-size: 0.95em;
+            }
+            .large-textarea-container textarea {
+                min-height: 120px;
+            }
+            .client-type-selector {
+                flex-direction: column; /* Tipos de cliente em coluna */
+                justify-content: center;
+                align-items: center;
+            }
+            #typeSpecificInputAndButton {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
