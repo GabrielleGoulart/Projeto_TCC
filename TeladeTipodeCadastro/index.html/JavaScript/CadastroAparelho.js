@@ -30,5 +30,6 @@
         alert("Ocorreu um erro ao tentar cadastrar o aparelho.");
       }
     });
-  }); /
+  }); 
+
 
