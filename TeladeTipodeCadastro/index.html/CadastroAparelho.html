@@ -64,16 +64,25 @@
       </div>
 
       <div class="input-group">
-        <label for="fotoAparelho">Foto do Aparelho (opcional)</label>
-        <input type="file" id="fotoAparelho" name="foto_aparelho" accept="image/*" />
-      </div>
+  <label for="fotoAparelho">Foto do Aparelho (opcional)</label>
+  <label for="fotoAparelho" class="custom-file-label">Escolher Arquivo</label>
+  <input type="file" id="fotoAparelho" name="fotoAparelho" accept="image/*" onchange="mostrarNomeArquivo(this)">
+  <div class="file-name" id="nomeArquivo">Nenhum arquivo escolhido</div>
+</div>
+
 
       <button type="submit" class="submit-btn">Cadastrar Aparelho</button>
     </form>
   </div>
 
-  
-  <script src="js/cadastroAparelho.js"></script>
-
+  <script>
+    // Configurar a data padrão para "dataCadastro" como o datetime atual no formato local:
+    const dataCadastroInput = document.getElementById('dataCadastro');
+    if (dataCadastroInput) {
+      const now = new Date();
+      const localISOTime = now.toISOString().slice(0,16); // YYYY-MM-DDTHH:mm
+      dataCadastroInput.value = localISOTime;
+    }
+  </script>
 </body>
 </html>
