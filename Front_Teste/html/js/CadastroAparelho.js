@@ -4,7 +4,6 @@ document.addEventListener("DOMContentLoaded", function () {
   form.addEventListener("submit", async function (event) {
     event.preventDefault();
 
-    // Captura dos dados do formulário
     const data = {
       nome_aparelho: document.getElementById("nome_aparelho").value,
       defeito: document.getElementById("defeito").value,
@@ -12,10 +11,10 @@ document.addEventListener("DOMContentLoaded", function () {
       pecas_aplicadas: document.getElementById("pecas_aplicadas").value,
       quantidade_aplicada: parseInt(document.getElementById("quantidade_aplicada").value),
       nome_tecnico: document.getElementById("nome_tecnico").value,
-      data_entrega: document.getElementById("data_entrega").value,  
+      data_entrega: document.getElementById("data_entrega").value,
       observacoes: document.getElementById("observacoes").value,
       valor_total: parseFloat(document.getElementById("valor_total").value),
-      foto_aparelho: document.getElementById("foto_aparelho").value 
+      foto_aparelho: document.getElementById("foto_aparelho").value
     };
 
     try {
@@ -33,16 +32,28 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       const result = await response.json();
-
       alert("Aparelho cadastrado com sucesso!");
-      form.reset();
 
-      // Salva data entrega para exibir na agenda, caso precise
-      if (result.aparelho && result.aparelho.data_entrega) {
-        localStorage.setItem("ultimaDataEntrega", result.aparelho.data_entrega);
+      // Criação automática da agenda com data de entrega
+      if (result.aparelho?.id && result.aparelho?.data_entrega) {
+        const novaAgenda = {
+          dataAgendada: result.aparelho.data_entrega,
+          descricao: `Entrega do aparelho: ${result.aparelho.nome_aparelho}`,
+          aparelho: { id: result.aparelho.id }
+        };
+
+        const agendaRes = await fetch("http://localhost:8080/api/agenda", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(novaAgenda)
+        });
+
+        if (!agendaRes.ok) {
+          console.warn("Aparelho cadastrado, mas falha ao criar agenda.");
+        }
       }
 
-      // Redireciona para agenda ou outra página
+      form.reset();
       window.location.href = "agenda.html";
 
     } catch (error) {
