@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tabelas | TaskUP</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700&display=swap" rel="stylesheet" />
+  <style>
+    /* CSS conforme seu padrão */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      background-color: #fff;
+      font-family: 'Inter', sans-serif;
+      color: #333;
+      min-height: 100vh;
+      overflow-y: auto;
+    }
+    .topo {
+      background-color: #24c0eb;
+      border-bottom: 2px solid #24c0eb;
+      padding: 20px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    .logo {
+      font-size: 24px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .menu {
+      display: flex;
+      gap: 30px;
+    }
+    .menu a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 8px 12px;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+    .menu a:hover {
+      color: #e1f7fd;
+    }
+    .menu a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: 0;
+      left: 0;
+      background-color: #e1f7fd;
+      transition: width 0.3s ease;
+    }
+    .menu a:hover::after {
+      width: 100%;
+    }
+    .usuario {
+      background-color: #24c0eb;
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-weight: bold;
+    }
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 40px auto;
+      background-color: #fff;
+      border: 2px solid #24c0eb;
+      border-radius: 16px;
+      box-shadow: 0 4px 10px rgba(36, 192, 235, 0.2);
+      padding: 30px;
+    }
+    .tabela-wrapper {
+      overflow-x: auto;
+      margin-top: 20px;
+      margin-bottom: 40px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      color: #333;
+      margin-bottom: 30px;
+    }
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #fff; /* borda leve */
+    }
+    th {
+      background-color: #fff;
+      font-weight: 700;
+      position: sticky;
+      top: 0;
+      color: #333;
+    }
+    tr:hover {
+      background-color: rgba(36, 192, 235, 0.08);
+    }
+    .titulo-com-botao {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin: 40px 0 20px;
+      border-bottom: 2px solid #24c0eb;
+      padding-bottom: 10px;
+    }
+    .titulo-com-botao h2 {
+      margin: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+    td:last-child {
+      padding: 8px 15px;
+      white-space: nowrap;
+    }
+    td button {
+      margin: 2px;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 14px;
+    }
+    .btn-editar {
+      background-color: #24c0eb;
+      color: white;
+    }
+    .btn-editar:hover {
+      background-color: #1ea8d4;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .btn-excluir {
+      background-color: #f44336;
+      color: white;
+    }
+    .btn-excluir:hover {
+      background-color: #d32f2f;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .btn-relatorio {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      margin-left: 15px;
+    }
+    .btn-relatorio:hover {
+      background-color: #218838;
+    }
+    td button + button {
+      margin-left: 6px;
+    }
+
+    .btn-os {
+  background-color: #ebaf0c; /* verde */
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+
+.btn-os:hover {
+  background-color: #d19c0a;
+}
+    @media (max-width: 768px) {
+      .topo {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+      }
+      .menu {
+        flex-direction: column;
+        gap: 10px;
+      }
+      .container {
+        padding: 20px 15px;
+      }
+      th, td {
+        padding: 10px 8px;
+        font-size: 14px;
+      }
+    }
+
+    #modalFiltroRelatorio {
+  display: none;
+  position: fixed;
+  top:0; left:0; 
+  width: 100vw; 
+  height: 100vh;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+#modalFiltroRelatorio > div {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  min-width: 300px;
+}
+
+    @media (max-width: 500px) {
+      td button {
+        display: block;
+        margin: 4px 0;
+        width: 100%;
+      }
+      td button + button {
+        margin-left: 0;
+      }
+      .titulo-com-botao {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .btn-relatorio {
+        margin: 10px 0 0 0;
+        align-self: flex-start;
+      }
+      
+    }
+
+    /* === Estilo base para todos os modais === */
+#modalFiltroRelatorio,
+#modalFiltroCusto {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; 
+  width: 100%; 
+  height: 100%;
+  background: rgba(0,0,0,0.5); /* fundo semitransparente */
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Caixa do modal */
+#modalFiltroRelatorio > div,
+#modalFiltroCusto > div {
+  background: #fff;
+  padding: 20px 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(36, 192, 235, 0.3);
+  max-width: 400px;
+  width: 90%;
+  border: 2px solid #24c0eb;
+  animation: modalFade 0.3s ease;
+}
+
+/* Título */
+#modalFiltroRelatorio h3,
+#modalFiltroCusto h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #24c0eb;
+  font-size: 18px;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* Labels */
+#modalFiltroRelatorio label,
+#modalFiltroCusto label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 500;
+  color: #333;
+}
+
+/* Inputs de data */
+#modalFiltroRelatorio input[type="date"],
+#modalFiltroCusto input[type="date"] {
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  width: 100%;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+/* Botões dentro do modal */
+#modalFiltroRelatorio button,
+#modalFiltroCusto button {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-right: 8px;
+  font-family: 'Inter', sans-serif;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+/* Botão principal (confirmar/gerar) */
+#btnConfirmarFiltro,
+#btnConfirmarCusto {
+  background-color: #24c0eb;
+  color: white;
+}
+
+#btnConfirmarFiltro:hover,
+#btnConfirmarCusto:hover {
+  background-color: #1ea8d4;
+  transform: scale(1.02);
+}
+
+/* Botão cancelar */
+#btnCancelarFiltro,
+#btnCancelarCusto {
+  background-color: #f44336;
+  color: white;
+}
+
+#btnCancelarFiltro:hover,
+#btnCancelarCusto:hover {
+  background-color: #d32f2f;
+  transform: scale(1.02);
+}
+
+/* Animação suave ao abrir */
+@keyframes modalFade {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+  </style>
+</head>
+<body>
+  <div class="topo">
+    <div class="logo">TaskUP</div>
+    <nav class="menu">
+      <a href="inicio.html">Início</a>
+      <a href="#">Cadastro</a>
+      <a href="tabelas.html">Tabelas</a>
+      <a href="agenda.html">Agenda</a>
+    </nav>
+    <div class="usuario">Olá, Técnico</div>
+  </div>
+  <div class="container">
+
+    <!-- Clientes -->
+    <section id="clientes">
+      <div class="titulo-com-botao">
+        <h2>Clientes</h2>
+      </div>
+      <div class="tabela-wrapper">
+        <table id="tabela-clientes">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nome</th>
+              <th>CPF</th>
+              <th>CNPJ</th>
+              <th>CEP</th>
+              <th>Endereço</th>
+              <th>Número</th>
+              <th>Bairro</th>
+              <th>Cidade</th>
+              <th>Estado</th>
+              <th>Email</th>
+              <th>Telefone</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Aparelhos -->
+    <section id="aparelhos">
+      <div class="titulo-com-botao">
+        <h2>Aparelhos</h2>
+      </div>
+      <div class="tabela-wrapper">
+        <table id="tabela-aparelhos">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Cliente ID</th>
+              <th>Nome</th>
+              <th>Defeito</th>
+              <th>Serviços Executados</th>
+              <th>Peças Aplicadas</th>
+              <th>Quantidade</th>
+              <th>Técnico</th>
+              <th>Data Entrega</th>
+              <th>Observações</th>
+              <th>Valor Total</th>
+              <th>Status</th>
+              <th>Foto</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Histórico -->
+    <section id="historico">
+  <div class="titulo-com-botao">
+    <h2>Histórico</h2>
+    <button id="btnRelatorioCusto" class="btn-relatorio">Gerar Relatório de Custo Operacional</button>
+  </div>
+      <div class="tabela-wrapper">
+        <table id="tabela-historico">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Cliente ID</th>
+              <th>Aparelho ID</th>
+              <th>Data Entrada</th>
+              <th>Data Saída</th>
+              <th>Status</th>
+              <th>Observações</th>
+              <th>Técnico</th>
+              <th>Peças Aplicadas</th>
+              <th>Serviço Executado</th>
+              <th>Defeito</th>
+              <th>Valor Total</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Peças -->
+    <section id="pecas">
+      <div class="titulo-com-botao">
+        <h2>Peças</h2>
+      </div>
+      <div class="tabela-wrapper">
+        <table id="tabela-pecas">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nome</th>
+              <th>Descrição</th>
+              <th>Preço Unitário</th>
+              <th>Quantidade em Estoque</th>
+              <th>Estoque Mínimo</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Peças Utilizadas -->
+     <div id="titulo-pecas-utilizadas" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+  <h2 style="margin: 0;">Peças Utilizadas</h2>
+  <button id="btnAbrirModalRelatorio" class="btn-relatorio">Gerar Relatório de Consumo de Peças</button>
+</div>
+<hr style="border: 1px solid #24c0eb; margin-top: 0; margin-bottom: 10px;" />
+
+    <section id="pecas-utilizadas">
+      <div class="tabela-wrapper">
+        <table id="tabela-pecas-utilizadas">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Aparelho ID</th>
+              <th>Peça ID</th>
+              <th>Quantidade Utilizada</th>
+              <th>Data Utilização</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+<!-- Modal Filtro Relatório Consumo de Peças -->
+<div id="modalFiltroRelatorio">
+
+  <div>
+    <h3>Filtrar Relatório - Consumo de Peças</h3>
+    <label>
+      Data Início: <input type="date" id="modalDataInicio" />
+    </label>
+    <br /><br />
+    <label>
+      Data Fim: <input type="date" id="modalDataFim" />
+    </label>
+    <br /><br />
+    <button id="btnConfirmarFiltro">Gerar PDF</button>
+    <button id="btnCancelarFiltro">Cancelar</button>
+  </div>
+</div>
+
+<!-- Modal Filtro Relatório Custo Operacional -->
+<div id="modalFiltroCusto">
+  <div>
+    <h3>Filtrar Relatório - Custo Operacional</h3>
+    <label>
+      Data Início: <input type="date" id="dataInicioCusto" />
+    </label>
+    <br /><br />
+    <label>
+      Data Fim: <input type="date" id="dataFimCusto" />
+    </label>
+    <br /><br />
+    <button id="btnConfirmarCusto">Gerar PDF</button>
+    <button id="btnCancelarCusto">Cancelar</button>
+  </div>
+</div>
+
+  </div>
+  <script src="js/tabelas.js"></script>
+</body>
+</html>

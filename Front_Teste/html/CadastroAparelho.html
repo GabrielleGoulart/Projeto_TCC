@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="css/CadastroAparelho.css" />
+  <title>Cadastro de Aparelho | TaskUP</title>
+</head>
+<body>
+  <div class="topo">
+    <div class="logo">TaskUP</div>
+    <nav class="menu">
+      <a href="#">Início</a>
+      <a href="#">Clientes</a>
+      <a href="#">Aparelhos</a>
+      <a href="#">Tabelas</a>
+      <a href="#">Agenda</a>
+    </nav>
+    <div class="usuario">Olá, Técnico</div>
+  </div>
+
+  <div class="container">
+    <h1>Cadastro de Aparelho</h1>
+    <form id="aparelhoForm" enctype="multipart/form-data" autocomplete="off">
+      
+      <div class="input-group">
+        <label for="nome_aparelho">Nome do Aparelho <span class="required">*</span></label>
+        <input type="text" id="nome_aparelho" name="nome_aparelho" maxlength="50" required />
+      </div>
+
+      <div class="input-group">
+        <label for="defeito">Defeito <span class="required">*</span></label>
+        <textarea id="defeito" name="defeito" maxlength="200" required></textarea>
+      </div>
+
+      <div class="input-group">
+        <label for="servicos_executados">Serviços Executados <span class="required">*</span></label>
+        <textarea id="servicos_executados" name="servico_executados" maxlength="200" required></textarea>
+      </div>
+
+      <div class="input-group">
+        <label for="pecas_aplicadas">Peças Aplicadas (opcional)</label>
+        <textarea id="peca_aplicadas" name="pecas_aplicadas" maxlength="255" placeholder="Exemplo: Tela, bateria..."></textarea>
+      </div>
+      
+      <div class="input-group">
+        <label for="quantidade_aplicada">Quantidade aplicada (opcional)</label>
+        <textarea id="quantidade_aplicada" name="quantidade_aplicada" maxlength="255" placeholder="Exemplo: Tela, bateria..."></textarea>
+      </div>
+
+      <div class="input-group">
+        <label for="nome_tecnico">Nome do Técnico <span class="required">*</span></label>
+        <input type="text" id="nome_tecnico" name="nome_tecnico" maxlength="100" required />
+      </div>
+
+      <div class="input-group">
+        <label for="data_entrega">Data de entrega <span class="required">*</span></label>
+        <input type="datetime-local" id="data_entrega" name="data_entrega" required />
+      </div>
+
+      <div class="input-group">
+        <label for="observacoes">Observações <span class="required">*</span></label>
+        <textarea id="observacoes" name="observacoes" maxlength="200" required></textarea>
+      </div>
+
+      <div class="input-group">
+        <label for="valor_total">Valor Total (R$) <span class="required">*</span></label>
+        <input type="number" id="valor_total" name="valor_total" min="0" step="0.01" required />
+      </div>
+
+      <div class="input-group">
+        <label for="foto_aparelho" class="custom-file-label">Escolher Foto do Aparelho (opcional)</label>
+        <input type="file" id="foto_aparelho" name="foto_aparelho" accept="image/*" style="display:none" onchange="mostrarNomeArquivo(this)" />
+        <div class="file-name" id="nomeArquivo">Nenhum arquivo escolhido</div>
+      </div>
+
+      <button type="submit" class="submit-btn">Cadastrar Aparelho</button>
+    </form>
+  </div>
+
+  <script>
+    // Mostrar nome do arquivo selecionado
+    function mostrarNomeArquivo(input) {
+      const nomeArquivo = document.getElementById("nomeArquivo");
+      if (input.files && input.files.length > 0) {
+        nomeArquivo.textContent = input.files[0].name;
+      } else {
+        nomeArquivo.textContent = "Nenhum arquivo escolhido";
+      }
+    }
+
+    // Permite abrir seletor ao clicar no label
+    document.querySelector('.custom-file-label').addEventListener('click', () => {
+      document.getElementById('fotoAparelho').click();
+    });
+  </script>
+</body>
+</html>
