@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-  // Elementos
+  // Elementos do formulário
   const radioPF = document.querySelector('input[value="pf"]');
   const radioPJ = document.querySelector('input[value="pj"]');
   const docLabel = document.getElementById('cpfCnpjLabel');
@@ -18,11 +18,10 @@ document.addEventListener("DOMContentLoaded", function () {
   const buscarBtn = document.getElementById('buscarBtn');
   const statusBusca = document.getElementById('statusBusca');
   const formCliente = document.getElementById('clienteForm');
-  const cadastroClienteContainer = document.getElementById('cadastroClienteContainer');
-  const cadastroAparelhoContainer = document.getElementById('cadastroAparelhoContainer');
+  const tabelaClientesBody = document.querySelector('#tabela-clientes tbody');
 
   // Máscaras
-  VMasker(docInput).maskPattern('999.999.999-99'); 
+  VMasker(docInput).maskPattern('999.999.999-99');
   VMasker(telefone).maskPattern('(99) 9 9999-9999');
   VMasker(cep).maskPattern('99999-999');
 
@@ -49,7 +48,7 @@ document.addEventListener("DOMContentLoaded", function () {
   radioPJ.addEventListener('change', updateDocField);
   updateDocField();
 
-  // Buscar cliente por CPF/CNPJ (GET)
+  // Buscar cliente por CPF/CNPJ
   buscarBtn.addEventListener('click', async () => {
     const documento = docInput.value.replace(/\D/g, '');
     if (!documento) {
@@ -61,12 +60,15 @@ document.addEventListener("DOMContentLoaded", function () {
     statusBusca.style.color = 'black';
 
     try {
-      // Escolher endpoint correto baseado no tipo
       const endpoint = radioPF.checked 
         ? `http://localhost:8080/api/cliente/cpf/${documento}`
         : `http://localhost:8080/api/cliente/cnpj/${documento}`;
 
-      const response = await fetch(endpoint);
+      const response = await fetch(endpoint, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+        mode: 'cors'
+      });
 
       if (response.ok) {
         const cliente = await response.json();
@@ -104,7 +106,7 @@ document.addEventListener("DOMContentLoaded", function () {
   formCliente.addEventListener('submit', async function (event) {
     event.preventDefault();
 
-    // Validação rápida
+    // Validação
     if (!docInput.value || !telefone.value || !email.value || !cep.value || !bairro.value || !cidade.value || !estado.value ||
         (radioPF.checked && !nomeCompleto.value) || (radioPJ.checked && !nomeEmpresa.value)) {
       alert('Por favor, preencha todos os campos obrigatórios.');
@@ -130,7 +132,8 @@ document.addEventListener("DOMContentLoaded", function () {
       const response = await fetch('http://localhost:8080/api/cliente', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(formData),
+        mode: 'cors'
       });
 
       const result = await response.json();
@@ -139,14 +142,9 @@ document.addEventListener("DOMContentLoaded", function () {
         alert('✅ Cliente cadastrado com sucesso!');
         statusBusca.textContent = 'Cliente cadastrado com sucesso!';
         statusBusca.style.color = 'green';
-
-        // Limpar formulário
         formCliente.reset();
         updateDocField();
-
-        // Mostrar cadastro de aparelho
-        cadastroClienteContainer.style.display = 'none';
-        cadastroAparelhoContainer.style.display = 'block';
+        carregarClientes(); // Atualiza tabela após cadastro
       } else {
         alert(`Erro no cadastro: ${result.message || 'Verifique os dados.'}`);
         statusBusca.textContent = 'Erro ao cadastrar cliente.';
@@ -158,4 +156,69 @@ document.addEventListener("DOMContentLoaded", function () {
       statusBusca.style.color = 'red';
     }
   });
+
+  // Carregar todos clientes na tabela
+  async function carregarClientes() {
+    tabelaClientesBody.innerHTML = '<tr><td colspan="8">Carregando dados...</td></tr>';
+    try {
+      const response = await fetch('http://localhost:8080/api/cliente', {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+        mode: 'cors'
+      });
+
+      if (!response.ok) throw new Error(`Erro ${response.status}: ${response.statusText}`);
+
+      const clientes = await response.json();
+
+      if (clientes.length === 0) {
+        tabelaClientesBody.innerHTML = '<tr><td colspan="8">Nenhum cliente cadastrado</td></tr>';
+        return;
+      }
+
+      tabelaClientesBody.innerHTML = '';
+      clientes.forEach(cliente => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${cliente.id || '-'}</td>
+          <td>${cliente.tipo === 'pf' ? 'Pessoa Física' : 'Pessoa Jurídica'}</td>
+          <td>${cliente.nome || '-'}</td>
+          <td>${cliente.telefone || '-'}</td>
+          <td>${cliente.email || '-'}</td>
+          <td>${cliente.cep || '-'}</td>
+          <td>${cliente.endereco || '-'}</td>
+          <td>
+            <button onclick="excluirCliente(${cliente.id})" class="btn-excluir">Excluir</button>
+          </td>
+        `;
+        tabelaClientesBody.appendChild(tr);
+      });
+    } catch (error) {
+      tabelaClientesBody.innerHTML = `<tr><td colspan="8" style="color:red;">Erro ao carregar clientes: ${error.message}</td></tr>`;
+      console.error(error);
+    }
+  }
+
+  // Excluir cliente
+  window.excluirCliente = async function(id) {
+    if (!confirm('Deseja realmente excluir este cliente?')) return;
+    try {
+      const response = await fetch(`http://localhost:8080/api/cliente/${id}`, {
+        method: 'DELETE',
+        mode: 'cors'
+      });
+      if (response.ok) {
+        alert('Cliente excluído com sucesso!');
+        carregarClientes();
+      } else {
+        alert('Erro ao excluir cliente.');
+      }
+    } catch (error) {
+      console.error('Erro ao excluir cliente:', error);
+      alert('Erro ao conectar com o servidor.');
+    }
+  }
+
+  // Inicializa tabela ao carregar página
+  carregarClientes();
 });
