@@ -13,9 +13,16 @@ document.addEventListener("DOMContentLoaded", async function () {
     nomeArquivo.textContent = input.files.length > 0 ? input.files[0].name : "Nenhum arquivo escolhido";
   };
 
-  // Função para renderizar lista de peças
+  // Renderizar lista de peças
   function renderLista() {
     lista.innerHTML = "";
+    if (pecas.length === 0) {
+      const li = document.createElement("li");
+      li.textContent = "Nenhuma peça adicionada.";
+      lista.appendChild(li);
+      return;
+    }
+
     pecas.forEach((peca, index) => {
       const li = document.createElement("li");
       li.textContent = `${peca.nome} - Quantidade: ${peca.quantidade_utilizada}`;
@@ -27,7 +34,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
       btnRemover.addEventListener("click", async () => {
         try {
-          const res = await fetch(`/api/pecas_utilizadas/${peca.id_peca}`, { method: "DELETE" });
+          const res = await fetch(`http://localhost:8080/api/pecas_utilizadas/${peca.id_peca}`, { method: "DELETE", mode: "cors" });
           if (res.ok) {
             pecas.splice(index, 1);
             renderLista();
@@ -45,19 +52,26 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
   }
 
-  // Buscar peças do banco ao carregar a página
+  // Carregar peças do banco
   async function carregarPecas() {
+    lista.innerHTML = "<li>Carregando peças...</li>";
     try {
-      const res = await fetch("/api/pecas_utilizadas"); 
-      if (res.ok) {
-        const dados = await res.json();
-        pecas = dados; 
-        renderLista();
-      } else {
-        console.error("Erro ao buscar peças do banco.");
-      }
+      const res = await fetch("http://localhost:8080/api/pecas_utilizadas", { method: "GET", mode: "cors" });
+      if (!res.ok) throw new Error(`Erro ${res.status}: ${res.statusText}`);
+      const dados = await res.json();
+
+      // Ajuste para garantir que cada objeto tenha id_peca, quantidade_utilizada e data_utilizacao
+      pecas = dados.map(p => ({
+        id_peca: p.id_peca,
+        nome: p.nome,
+        quantidade_utilizada: p.quantidade_utilizada,
+        data_utilizacao: p.data_utilizacao
+      }));
+
+      renderLista();
     } catch (err) {
-      console.error("Erro ao conectar com API de peças:", err);
+      console.error("Erro ao carregar peças:", err);
+      lista.innerHTML = `<li style="color:red;">Erro ao carregar peças: ${err.message}</li>`;
     }
   }
 
@@ -74,15 +88,21 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 
     try {
-      const res = await fetch("/api/pecas_utilizadas", {
+      const res = await fetch("http://localhost:8080/api/pecas_utilizadas", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ nome, quantidade_utilizada: quantidade })
+        body: JSON.stringify({ nome, quantidade_utilizada: quantidade }), // correspondendo ao BD
+        mode: "cors"
       });
 
       if (res.ok) {
         const novaPeca = await res.json(); 
-        pecas.push(novaPeca);
+        pecas.push({
+          id_peca: novaPeca.id_peca,
+          nome: novaPeca.nome,
+          quantidade_utilizada: novaPeca.quantidade_utilizada,
+          data_utilizacao: novaPeca.data_utilizacao
+        });
         renderLista();
         nomePecaInput.value = "";
         quantidadePecaInput.value = "";
@@ -95,7 +115,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
   });
 
-  // Submissão do formulário
+  // Submissão do formulário de aparelho
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
 
@@ -107,14 +127,19 @@ document.addEventListener("DOMContentLoaded", async function () {
       data_entrega: document.getElementById("data_entrega").value,
       observacoes: document.getElementById("observacoes").value.trim(),
       valor_total: parseFloat(document.getElementById("valor_total").value),
-      pecas: pecas.map(p => p.id_peca)
+      pecas: pecas.map(p => ({
+        id_peca: p.id_peca,
+        quantidade_utilizada: p.quantidade_utilizada,
+        data_utilizacao: p.data_utilizacao
+      }))
     };
 
     try {
-      const res = await fetch("/api/aparelhos", {
+      const res = await fetch("http://localhost:8080/api/aparelhos", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(dadosAparelho)
+        body: JSON.stringify(dadosAparelho),
+        mode: "cors"
       });
 
       if (res.ok) {
