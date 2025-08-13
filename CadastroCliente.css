@@ -10,12 +10,30 @@ body {
   font-family: 'Inter', sans-serif;
   color: #333;
   min-height: 100vh;
-  transition: opacity 0.5s ease; /* Para a transição de fade out */
+  transition: opacity 0.5s ease; /* Fade-out */
 }
 
-/* Classe para fade out ao mudar de página */
+/* Classe para fade out */
 body.fade-out {
   opacity: 0;
+}
+
+/* Container do formulário */
+.container {
+  width: 90%;
+  max-width: 800px;
+  margin: 40px auto;
+  background-color: #ffffff;
+  border: 2px solid #24c0eb;
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(36, 192, 235, 0.2);
+  padding: 30px;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.container.fade-out {
+  opacity: 0;
+  transform: translateY(-20px);
 }
 
 /* ====== TOPO DO SITE ====== */
@@ -94,39 +112,6 @@ body.fade-out {
   border-radius: 20px;
   font-weight: bold;
   font-size: 0.9em;
-}
-
-/* ====== CABEÇALHO DA PÁGINA ====== */
-header.pagina {
-  text-align: center;
-  padding: 40px 20px 30px;
-}
-
-header.pagina h1 {
-  font-size: 2.2em;
-  color: #444;
-  font-weight: 700;
-}
-
-/* ====== CONTAINER PRINCIPAL ====== */
-.container {
-  width: 90%;
-  max-width: 800px;
-  margin: 40px auto;
-  background-color: #ffffff;
-  border: 2px solid #24c0eb;
-  border-radius: 16px;
-  box-shadow: 0 4px 10px rgba(36, 192, 235, 0.2);
-  padding: 30px;
-}
-
-.description {
-  font-size: 14px;
-  margin-bottom: 20px;
-}
-
-.required {
-  color: red;
 }
 
 /* ====== FORMULÁRIO ====== */
