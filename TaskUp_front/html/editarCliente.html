@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TaskUP | Editar Cliente </title>
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/editarCliente.css">
+
+</head>
+<body>
+
+    <div class="topo">
+      <div class="topo-conteudo">
+        <div class="logo">
+          <img src="img/icone.png" alt="Logo da TaskUp" class="logo-img">
+          <h1>TaskUp</h1>
+        </div>
+      <nav class="menu">
+        <a href="inicial.html">Início</a>
+          <a href="cadastroPeca.html">Cadastrar Peça</a>
+          <a href="cadastroAparelho.html">Cadastrar Aparelho</a>
+          <a href="cadastroCliente.html">Cadastrar Cliente</a>
+          <a href="tabelas.html">Tabelas</a>
+          <a href="agenda.html">Agenda</a>
+       </nav>
+       <div class="usuario">Olá, Técnico</div>
+      </div>
+    </div>
+    
+    <div class="container">
+      <form class="formulario">
+        <header class="pagina">
+          <h1>Editar Cliente:</h1>
+        </header>
+
+        <div class="campo">
+          <label>Tipo de Cliente:</label>
+          <select name="tipoCliente" id="tipoCliente">
+            <option value="fisica">Pessoa Física</option>
+            <option value="juridica">Pessoa Jurídica</option>
+          </select>
+        </div>
+
+        <div class="campo">
+          <label id="nomeLabel">Nome:</label>
+          <input type="text" name="nome" placeholder="Nome Completo" />
+        </div>
+
+        <div class="campo">
+          <label id="cpfCnpjLabel">CPF:</label>
+          <input type="text" name="cpfCnpj" placeholder="Digite o CPF" />
+        </div>
+
+        <div class="campo">
+          <label>Telefone:</label>
+          <input type="text" name="telefone" placeholder="Ex: (00) 99999-9999" />
+        </div>
+
+        <div class="campo">
+          <label>Email:</label>
+          <input type="email" name="email" placeholder="Ex: email@example.com" />
+        </div>
+        <div class="campo">
+          <label>CEP:</label>
+          <input type="text" name="cep" placeholder="Ex: 00000-000" />
+        </div>
+        <div class="campo">
+          <label>Endereço:</label>
+          <input type="text" name="endereco" placeholder="Ex: Rua, Av, Nº" />
+        </div>
+        <div class="campo">
+          <label>Bairro:</label>
+          <input type="text" name="bairro" placeholder="Ex: Bairro Centro" />
+        </div>
+        <div class="campo">
+          <label>Cidade:</label>
+          <input type="text" name="cidade" placeholder="Ex: São Paulo" />
+        </div>
+        <div class="campo">
+          <label>Estado:</label>
+          <input type="text" name="estado" placeholder="Ex: SP" />
+        </div>
+        
+        <div class="botoes">
+          <button type="button" class="cancelar" onclick="window.location.href='tabelas.html'">Cancelar</button>
+          <button type="submit" class="salvar">Salvar</button>
+        </div>
+      </form>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/vanilla-masker@1.2.0/lib/vanilla-masker.min.js"></script>
+    
+    <script src="JavaScript/editarCliente.js"></script>
+</body>
+</html>

@@ -1,0 +1,264 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #ffffff;
+  font-family: 'Inter', sans-serif;
+  color: #333;
+  min-height: 100vh;
+}
+
+/* --- Cabeçalho do Site (Topo) --- */
+.topo {
+  background-color: #24c0eb;
+  border-bottom: 2px solid #24c0eb;
+  padding: 20px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.topo-conteudo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.topo .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 24px;
+    font-weight: 700;
+    color: #fff;
+    margin: 0;
+}
+
+.logo-img {
+    width: 35px;
+    height: 35px;
+}
+
+.menu {
+  display: flex;
+  gap: 30px;
+}
+
+.menu a {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  position: relative;
+  padding: 8px 12px;
+}
+
+.menu a:hover {
+  color: #ffffff;
+}
+
+.menu a::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #ffffff;
+  transition: width 0.3s ease;
+}
+
+.menu a:hover::after {
+  width: 100%;
+}
+
+.usuario {
+  background-color: #24c0eb;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 0.9em;
+}
+
+/* --- Cabeçalho da Página --- */
+header.pagina {
+    text-align: center;
+    padding: 40px 20px 30px;
+}
+
+header.pagina h1 {
+  font-size: 2.2em;
+  color: #444;
+  font-weight: 700;
+}
+
+.container {
+  width: 90%;
+  max-width: 800px;
+  margin: 40px auto;
+  background-color: #ffffff;
+  border: 2px solid #24c0eb;
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(36, 192, 235, 0.2);
+  padding: 30px;
+}
+
+/* --- Formulário --- */
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+}
+
+.campo label {
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #555;
+  font-size: 1em;
+}
+
+.campo input[type="text"],
+.campo input[type="email"],
+.campo select {
+  background-color: #f8f9fa;
+  padding: 12px 15px;
+  border: 1px solid #24c0eb;
+  border-radius: 8px;
+  font-size: 16px;
+  color: #333;
+  width: 100%;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.botoes {
+  display: flex;
+  justify-content: row;
+  justify-content: space-between;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.botoes button {
+  padding: 12px 25px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  width: 100%;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.cancelar {
+    background-color: #e9ecef;
+    color: #495057;
+}
+
+.cancelar:hover {
+    background-color: #dee2e6;
+    transform: translateY(-2px);
+}
+
+.salvar {
+  background-color: #24c0eb;
+  color: #fff;
+}
+
+.salvar:hover {
+ background-color: #1e9ac2;
+    transform: translateY(-2px);
+}
+
+/* --- Media Queries para Telas de Celular --- */
+@media (max-width: 768px) {
+  .topo {
+    flex-direction: column;
+    padding: 15px 20px;
+    gap: 15px;
+  }
+  
+  .topo-conteudo {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .menu {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+    width: 100%;
+  }
+
+  .menu a {
+    width: 100%;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  .menu a:last-child {
+      border-bottom: none;
+  }
+  
+  .menu a::after {
+      content: none; /* Remove o efeito de sublinhado em telas pequenas */
+  }
+
+  .container {
+    padding: 20px;
+    margin: 20px auto;
+  }
+  
+  header.pagina h1 {
+      font-size: 1.8em;
+  }
+  
+  .botoes {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .botoes button {
+    width: 100%;
+  }
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+}
+
+.campo label {
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #555;
+  font-size: 1em;
+}
+
+.campo input[type="text"],
+.campo input[type="number"],
+.campo input[type="email"],
+.campo select {
+  background-color: #f8f9fa;
+  padding: 12px 15px;
+  border: 1px solid #24c0eb;
+  border-radius: 8px;
+  font-size: 16px;
+  color: #333;
+  width: 100%;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}

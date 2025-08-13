@@ -1,0 +1,137 @@
+/* Importação de fontes */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+/* Estilos gerais */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #24c0eb;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    color: #333;
+    padding: 20px;
+}
+
+.login-container {
+    max-width: 450px;
+    width: 100%;
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.login-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.login-header .logo {
+    width: 50px;
+    height: 50px;
+    margin-right: 1px;
+    align-items: center;
+}
+
+.login-header h1 {
+    font-size: 2.5em;
+    color: #24c0eb;
+    margin: 0;
+    gap: 2px;
+}
+
+.login-card h2 {
+    font-size: 1.5em;
+    color: #555;
+    margin-bottom: 30px;
+    font-weight: 400;
+}
+
+.input-group {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #444;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1em;
+    box-sizing: border-box; /* Garante que padding não altere a largura */
+    transition: border-color 0.3s;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: #24c0eb;
+    box-shadow: 0 0 0 3px rgba(36, 192, 235, 0.2);
+}
+
+.login-button {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    background-color: #24c0eb;
+    color: #fff;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.login-button:hover {
+    background-color: #1e9ac2;
+    transform: translateY(-2px);
+}
+
+/* Responsividade para telas menores */
+@media (max-width: 768px) {
+    .login-container {
+        padding: 30px;
+    }
+
+    .login-header h1 {
+        font-size: 2em;
+    }
+
+    .login-card h2 {
+        font-size: 1.3em;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-container {
+        padding: 20px;
+        box-shadow: none;
+        border-radius: 0;
+        min-height: 100vh;
+        max-width: 100%;
+    }
+
+    body {
+        padding: 0;
+    }
+
+    .login-header {
+        flex-direction: column;
+    }
+    
+    .login-header .logo {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+}

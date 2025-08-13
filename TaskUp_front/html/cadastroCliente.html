@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="css/CadastroCliente.css" />
+  <title>Cadastro de Cliente | TaskUP</title>
+
+  <!-- Adicionando o Vanilla Masker -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-masker/1.1.0/vanilla-masker.min.js"></script>
+</head>
+<body>
+  
+  <!-- TOPO DO SITE -->
+  <div class="topo">
+    <div class="logo">TaskUP</div>
+    <nav class="menu">
+      <a href="#">Início</a>
+      <a href="#">Clientes</a>
+      <a href="#">Aparelhos</a>
+      <a href="#">Tabelas</a>
+      <a href="#">Agenda</a>
+    </nav>
+    <div class="usuario">Olá, Técnico</div>
+  </div>
+
+  <!-- CONTAINER PRINCIPAL -->
+  <div class="container">
+    <h1>Cadastro de Cliente</h1>
+    <p class="description">Preencher corretamente todos os campos do cliente <span class="required">*</span></p>
+
+    <!-- Tipo de Pessoa -->
+    <div class="client-type">
+      <label>
+        <input type="radio" name="tipo" value="pf" checked />
+        Pessoa Física
+      </label>
+      <label>
+        <input type="radio" name="tipo" value="pj" />
+        Pessoa Jurídica
+      </label>
+    </div>
+
+    <!-- Documento + Buscar -->
+    <div class="doc-search">
+      <div class="input-group">
+        <label for="cpfCnpj" id="cpfCnpjLabel">CPF <span class="required">*</span></label>
+        <input type="text" id="cpfCnpj" placeholder="Insira o CPF" required />
+      </div>
+      <button type="button" id="buscarBtn" class="submit-btn" style="width: auto; padding: 10px 20px; font-size: 14px;">Buscar Cliente</button>
+    </div>
+
+    <!-- Formulário de Cliente -->
+    <form id="clienteForm">
+      <div class="form-grid">
+        <!-- Pessoa Física -->
+        <div id="nomePessoaFisica">
+          <div class="input-group">
+            <label>Nome Completo <span class="required">*</span></label>
+            <input type="text" required />
+          </div>
+        </div>
+
+        <!-- Pessoa Jurídica -->
+        <div id="nomePessoaJuridica" style="display: none;" class="full-width">
+          <div class="input-group">
+            <label>Nome da Empresa <span class="required">*</span></label>
+            <input type="text" required />
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label>Telefone <span class="required">*</span></label>
+          <input type="tel" id="telefone" placeholder="(DDD) Telefone" required />
+        </div>
+
+        <div class="input-group">
+          <label>E-mail <span class="required">*</span></label>
+          <input type="email" required />
+        </div>
+
+        <div class="input-group">
+          <label>CEP <span class="required">*</span></label>
+          <input type="text" id="cep" required />
+        </div>
+
+        <div class="input-group full-width">
+          <label>Endereço</label>
+          <input type="text" />
+        </div>
+
+        <div class="input-group">
+          <label>Bairro <span class="required">*</span></label>
+          <input type="text" required />
+        </div>
+
+        <div class="input-group">
+          <label>Cidade <span class="required">*</span></label>
+          <input type="text" required />
+        </div>
+
+        <div class="input-group">
+          <label>Estado <span class="required">*</span></label>
+          <input type="text" required />
+        </div>
+      </div>
+
+      <button type="submit" class="submit-btn">Cadastrar Cliente</button>
+    </form>
+  </div>
+
+  <!-- Script para alternar Pessoa Física / Jurídica e aplicar máscaras -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const radioPF = document.querySelector('input[value="pf"]');
+      const radioPJ = document.querySelector('input[value="pj"]');
+      const docLabel = document.getElementById('cpfCnpjLabel');
+      const docInput = document.getElementById('cpfCnpj');
+      const nomePF = document.getElementById('nomePessoaFisica');
+      const nomePJ = document.getElementById('nomePessoaJuridica');
+      const telefoneInput = document.getElementById('telefone');
+      const cepInput = document.getElementById('cep');
+      
+      // Função para alternar entre Pessoa Física e Pessoa Jurídica
+      function updateDocField() {
+        if (radioPF.checked) {
+          docLabel.textContent = 'CPF *';
+          docInput.placeholder = 'Insira o CPF';
+          nomePF.style.display = 'block';
+          nomePJ.style.display = 'none';
+          VMasker(docInput).maskPattern('999.999.999-99'); // Formata CPF
+        } else {
+          docLabel.textContent = 'CNPJ *';
+          docInput.placeholder = 'Insira o CNPJ';
+          nomePF.style.display = 'none';
+          nomePJ.style.display = 'block';
+          VMasker(docInput).maskPattern('99.999.999/9999-99'); // Formata CNPJ
+        }
+      }
+
+      // Máscara de Telefone
+      VMasker(telefoneInput).maskPattern('(99) 9 9999-9999');
+
+      // Máscara de CEP
+      VMasker(cepInput).maskPattern('99999-999');
+
+      // Iniciar a alternância de CPF/CNPJ
+      radioPF.addEventListener('change', updateDocField);
+      radioPJ.addEventListener('change', updateDocField);
+      updateDocField(); // Inicialização
+
+      // Função para validar o formulário antes do envio
+      const form = document.getElementById('clienteForm');
+      form.addEventListener('submit', function(event) {
+        let valid = true;
+        // Verificar se o CPF/CNPJ está preenchido corretamente
+        if (!docInput.value) {
+          valid = false;
+          alert("Por favor, insira um CPF ou CNPJ.");
+        }
+
+        // Verificar se os campos obrigatórios estão preenchidos
+        form.querySelectorAll('input[required], textarea[required]').forEach(input => {
+          if (!input.value) {
+            valid = false;
+            alert(`Por favor, preencha o campo ${input.previousElementSibling.textContent.trim()}`);
+          }
+        });
+
+        if (!valid) {
+          event.preventDefault(); // Impede o envio do formulário se houver erros
+        }
+      });
+
+      // Quando o formulário for enviado
+      form.addEventListener('submit', async function(event) {
+        event.preventDefault(); // Evitar o envio padrão do formulário
+        
+        // Coletar os dados do formulário
+        const formData = new FormData(this);  // Pega todos os dados do formulário, incluindo o arquivo
+
+        try {
+          // Enviar os dados para a API (backend)
+          
+      const response = await fetch('http://localhost:8080/api/cliente', {
+            method: 'POST',
+            body: formData // Envia o formulário como FormData, permitindo envio de arquivos
+          });
+
+          // Verificar se a resposta foi bem-sucedida
+          const result = await response.json();  // A resposta da API será no formato JSON
+
+          if (response.ok) {
+            alert('Cliente cadastrado com sucesso!');  // Mensagem de sucesso
+            this.reset();  // Limpar o formulário após o envio
+          } else {
+            alert(`Erro: ${result.message}`);  // Mensagem de erro com base na resposta da API
+          }
+        } catch (error) {
+          // Exibir erro caso algo falhe na requisição
+          console.error('Erro ao tentar cadastrar o cliente:', error);
+          alert('Ocorreu um erro ao tentar salvar o cliente. Tente novamente mais tarde.');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

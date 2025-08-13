@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TaskUP | Editar Aparelho</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/editarAparelho.css">
+</head>
+<body>
+
+    <div class="topo">
+      <div class="topo-conteudo">
+        <div class="logo">
+          <img src="img/icone.png" alt="Logo da TaskUp" class="logo-img">
+          <h1>TaskUp</h1>
+        </div>
+        <nav class="menu">
+          <a href="inicial.html">Início</a>
+          <a href="cadastroPeca.html">Cadastrar Peça</a>
+          <a href="cadastroAparelho.html">Cadastrar Aparelho</a>
+          <a href="cadastroCliente.html">Cadastrar Cliente</a>
+          <a href="tabelas.html">Tabelas</a>
+          <a href="agenda.html">Agenda</a>
+          
+        </nav>
+        <div class="usuario">Olá, Técnico</div>
+      </div>
+    </div>
+    
+     <div class="container">
+    <form class="formulario">
+       <header class="pagina">
+      <h1>Editar Aparelho:</h1>
+    </header>
+      <div class="campo">
+        <label>Modelo do aparelho:</label>
+        <input type="text" name="modelo" placeholder="Ex: iPhone 13 Pro Max" />
+      </div>
+
+      <div class="campo">
+        <label>Data:</label>
+        <input type="date" name="data" />
+      </div>
+
+      <div class="campo">
+        <label>Defeito:</label>
+        <input type="text" name="defeito" placeholder="Ex: Tela trincada" />
+      </div>
+
+      <div class="campo">
+        <label>Observação:</label>
+        <textarea name="observacao" rows="4" placeholder="Detalhes adicionais sobre o aparelho"></textarea>
+      </div>
+
+      <div class="campo">
+        <label>Serviço executado:</label>
+        <input type="text" name="servico" placeholder="Ex: Troca de bateria" />
+      </div>
+
+      <div class="campo">
+        <label>Peças aplicadas:</label>
+        <input type="text" name="pecas" placeholder="Ex: Bateria original" />
+      </div>
+
+      <div class="campo">
+        <label>Valor total:</label>
+        <input type="text" name="valor" placeholder="Ex: 250,00" />
+      </div>
+
+      <div class="botoes">
+        <button type="button" class="cancelar" onclick="window.location.href='tabelas.html'">Cancelar</button>
+        <button type="submit" class="salvar">Salvar</button>
+      </div>
+    </form>
+    </div>
+</body>
+</html>

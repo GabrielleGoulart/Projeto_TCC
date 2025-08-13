@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TaskUP | Editar Peça</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/editarPeca.css">
+</head>
+<body>
+
+    <div class="topo">
+        <div class="topo-conteudo">
+            <div class="logo">
+                <img src="img/icone.png" alt="Logo da TaskUp" class="logo-img" />
+                <h1>TaskUp</h1>
+            </div>
+            <nav class="menu">
+                <a href="inicial.html">Início</a>
+                <a href="cadastroPeca.html">Cadastrar Peça</a>
+                <a href="cadastroAparelho.html">Cadastrar Aparelho</a>
+                <a href="cadastroCliente.html">Cadastrar Cliente</a>
+                <a href="tabelas.html">Tabelas</a>
+                <a href="agenda.html">Agenda</a>
+            </nav>
+            <div class="usuario">Olá, Técnico</div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <form class="formulario">
+            <header class="pagina">
+                <h1>Editar Peça:</h1>
+            </header>
+
+            <div class="campo">
+                <label for="peca">Nome da Peça:</label>
+                <input type="text" id="peca" name="peca" placeholder="Ex: Bateria iPhone 13" />
+            </div>
+
+            <div class="campo">
+                <label for="descricao">Descrição:</label>
+                <input type="text" id="descricao" name="descricao" placeholder="Ex: Bateria de polímero de lítio - 3240 mAh" />
+            </div>
+
+            <div class="campo">
+                <label for="preco">Preço:</label>
+                <input type="text" id="preco" name="preco" placeholder="Ex: 150,00" />
+            </div>
+
+            <div class="campo">
+  <label>Quantidade em Estoque:</label>
+  <input type="number" name="quantidade_estoque" placeholder="Ex: 20" min="0" />
+</div>
+
+<div class="campo">
+  <label>Estoque Mínimo:</label>
+  <input type="number" name="estoque_minimo" placeholder="Ex: 5" min="0" />
+</div>
+
+            
+            <div class="botoes">
+                <button type="button" class="cancelar" onclick="window.location.href='tabelas.html'">Cancelar</button>
+                <button type="submit" class="salvar">Salvar</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vanilla-masker@1.2.0/lib/vanilla-masker.min.js"></script>
+    <script src="JavaScript/editarpecas.js"></script>
+</body>
+</html>

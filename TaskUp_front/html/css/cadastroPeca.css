@@ -1,0 +1,188 @@
+/* Estilos gerais */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+} 
+
+body {
+  background-color: #ffffff;
+  font-family: 'Inter', sans-serif;
+  color: #333;
+  min-height: 100vh;
+}
+
+/* --- Cabeçalho do Site (Topo) --- */
+.topo {
+    background-color: #24c0eb;
+    border-bottom: 2px solid #24c0eb;
+    padding: 20px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.topo-conteudo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1200px;
+    width: 100%; /* Adicionado para ocupar o espaço total */
+    margin: 0 auto;
+}
+
+.topo .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 24px;
+    font-weight: 700;
+    color: #fff;
+    margin: 0;
+}
+
+.logo-img {
+    width: 35px;
+    height: 35px;
+}
+
+.menu {
+  display: flex;
+  gap: 30px;
+}
+
+.menu a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    position: relative;
+    padding: 8px 12px;
+}
+
+.menu a:hover {
+    color: #ffffff;
+}
+
+.menu a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #ffffff;
+    transition: width 0.3s ease;
+}
+
+.menu a:hover::after {
+    width: 100%;
+}
+
+.usuario {
+    background-color: #24c0eb;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 0.9em;
+}
+
+/* --- Cabeçalho da Página --- */
+header.pagina {
+    text-align: center;
+    padding: 40px 20px 30px;
+}
+
+header.pagina h1 {
+    font-size: 2.2em;
+    color: #444;
+    font-weight: 700;
+}
+/*final do css do cabeçalho*/
+
+    /* ====== CONTAINER PRINCIPAL ====== */
+    .container {
+      width: 90%;
+      max-width: 600px;
+      margin: 40px auto;
+      background-color: #ffffff;
+      border: 2px solid #24c0eb;
+      border-radius: 16px;
+      box-shadow: 0 4px 10px rgba(36, 192, 235, 0.2);
+      padding: 30px;
+    }
+
+    /* ====== FORMULÁRIO DE CADASTRO ====== */
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    label {
+      font-weight: 600;
+      color: #555;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    textarea {
+        background-color: #f8f9fa;
+    padding: 12px 15px;
+    border: 1px solid #24c0eb;
+    border-radius: 8px;
+    font-size: 16px;
+    color: #333;
+    width: 100%;
+    transition: border-color 0.3s, box-shadow 0.3s;
+
+    }
+
+    textarea {
+      min-height: 80px;
+    }
+
+    .btn-salvar {
+      background-color: #24c0eb;
+      color: white;
+      border: none;
+      padding: 12px 0;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 18px;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-salvar:hover {
+      background-color: #1b9ec9;
+    }
+
+    /* RESPONSIVO */
+    @media (max-width: 768px) {
+      .topo {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+      }
+
+      .menu {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .container {
+        padding: 20px 15px;
+      }
+
+      input[type="text"],
+      input[type="number"],
+      textarea {
+        font-size: 14px;
+      }
+    }
+ 

@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Todos os Clientes | TaskUP</title>
+
+  <!-- Fonte Poppins do Google -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #ffffff;
+      font-family: 'Poppins', sans-serif;
+      color: #333;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* --- Cabeçalho do Site (Topo) --- */
+    .topo {
+      background-color: #24c0eb;
+      border-bottom: 2px solid #24c0eb;
+      padding: 20px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .topo-conteudo {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 24px;
+      font-weight: 700;
+      color: #fff;
+      cursor: default;
+    }
+
+    .logo-img {
+      width: 35px;
+      height: 35px;
+    }
+
+    .menu {
+      display: flex;
+      gap: 30px;
+    }
+
+    .menu a {
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      position: relative;
+      padding: 8px 12px;
+    }
+
+    .menu a:hover {
+      color: #ffffff;
+    }
+
+    .menu a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: 0;
+      left: 0;
+      background-color: #ffffff;
+      transition: width 0.3s ease;
+    }
+
+    .menu a:hover::after {
+      width: 100%;
+    }
+
+    .usuario {
+      background-color: #24c0eb;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 0.9em;
+      user-select: none;
+    }
+
+    /* Container principal */
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 40px auto;
+      background-color: #fff;
+      border: 2px solid #24c0eb;
+      border-radius: 16px;
+      box-shadow: 0 4px 10px rgba(36, 192, 235, 0.2);
+      padding: 30px;
+      flex-grow: 1;
+    }
+
+    /* Título com botão voltar */
+    .titulo-com-botao {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin: 40px 0 20px;
+      border-bottom: 2px solid #24c0eb;
+      padding-bottom: 10px;
+    }
+
+    .titulo-com-botao h2 {
+      margin: 0;
+      font-weight: 700;
+      color: #333;
+    }
+
+    /* Botão voltar */
+    .btn-voltar {
+      background-color: transparent;
+      color: #24c0eb;
+      padding: 8px 18px;
+      border-radius: 25px;
+      border: 2px solid #24c0eb;
+      font-weight: 600;
+      font-size: 1rem;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      user-select: none;
+    }
+    .btn-voltar:hover {
+      background-color: #24c0eb;
+      color: white;
+      box-shadow: 0 0 8px #24c0ebaa;
+    }
+
+    /* Wrapper para a tabela com overflow horizontal */
+    .tabela-wrapper {
+      overflow-x: auto;
+      margin-top: 20px;
+      margin-bottom: 40px;
+    }
+
+    /* Tabela estilizada */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      color: #333;
+      margin-bottom: 30px;
+      min-width: 1100px;
+    }
+
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #ffffff;
+      white-space: nowrap;
+      max-width: 150px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    th {
+      background-color: #ffffff;
+      font-weight: 700;
+      position: sticky;
+      top: 0;
+      color: #333;
+      user-select: none;
+      box-shadow: inset 0 -1px 0 #ffffff;
+      z-index: 5;
+    }
+
+    tr:hover {
+      background-color: rgba(36, 192, 235, 0.1);
+      cursor: default;
+    }
+
+    /* Coluna de ações */
+    td:last-child {
+      padding: 8px 15px;
+      white-space: nowrap;
+      display: flex;
+      gap: 8px;
+    }
+
+    /* Botões de ação */
+    button.btn-editar,
+    button.btn-excluir {
+      padding: 8px 12px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.2s ease, box-shadow 0.2s ease;
+      font-size: 14px;
+      font-weight: 600;
+      user-select: none;
+      min-width: 70px;
+      text-align: center;
+    }
+
+    button.btn-editar {
+      background-color: #24c0eb;
+      color: white;
+      box-shadow: 0 2px 4px rgba(36, 192, 235, 0.5);
+    }
+    button.btn-editar:hover {
+      background-color: #1ea8d4;
+      box-shadow: 0 4px 10px rgba(30, 168, 212, 0.7);
+    }
+
+    button.btn-excluir {
+      background-color: #f44336;
+      color: white;
+      box-shadow: 0 2px 4px rgba(244, 67, 54, 0.5);
+    }
+    button.btn-excluir:hover {
+      background-color: #d32f2f;
+      box-shadow: 0 4px 10px rgba(211, 47, 47, 0.7);
+    }
+
+    /* Mensagens dentro da tabela */
+    .loading,
+    .no-data {
+      padding: 20px;
+      text-align: center;
+      font-style: italic;
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    .loading {
+      font-size: 1.1rem;
+      color: #ffffff;
+    }
+
+    /* Responsividade */
+    @media (max-width: 768px) {
+      .topo {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+      }
+      .menu {
+        flex-direction: column;
+        gap: 10px;
+      }
+      .container {
+        padding: 20px 15px;
+      }
+      th, td {
+        padding: 10px 8px;
+        font-size: 14px;
+      }
+      button.btn-editar,
+      button.btn-excluir {
+        padding: 6px 10px;
+        font-size: 13px;
+        min-width: 60px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="topo">
+    <div class="topo-conteudo">
+      <div class="logo">
+        <img src="img/icone.png" alt="Logo da TaskUp" class="logo-img" />
+        <h1>TaskUp</h1>
+      </div>
+      <nav class="menu">
+        <a href="inicial.html">Início</a>
+        <a href="cadastroPeca.html">Cadastrar Peça</a>
+        <a href="cadastroAparelho.html">Cadastrar Aparelho</a>
+        <a href="cadastroCliente.html">Cadastrar Cliente</a>
+        <a href="tabelas.html">Tabelas</a>
+        <a href="agenda.html">Agenda</a>
+      </nav>
+      <div class="usuario">Olá, Técnico</div>
+    </div>
+  </div>
+
+  <div class="container">
+    <section id="clientes-completo">
+      <div class="titulo-com-botao">
+        <h2>Todos os Clientes</h2>
+        <a href="tabelas.html" class="btn-voltar">← Voltar para resumo</a>
+      </div>
+      <div class="tabela-wrapper">
+        <table id="tabela-clientes-completa" aria-label="Tabela com lista de todos os clientes">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nome</th>
+              <th>CPF</th>
+              <th>CNPJ</th>
+              <th>CEP</th>
+              <th>Endereço</th>
+              <th>Número</th>
+              <th>Bairro</th>
+              <th>Cidade</th>
+              <th>Estado</th>
+              <th>Email</th>
+              <th>Telefone</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td colspan="13" class="loading">Carregando dados dos clientes...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    // Função para criar botões de ação (reutilizável)
+    function criarBotoesAcao(id, tipo) {
+      const container = document.createElement('div');
+
+      // Botão Editar
+      const btnEditar = document.createElement('button');
+      btnEditar.className = 'btn-editar';
+      btnEditar.textContent = 'Editar';
+      btnEditar.onclick = () => window.location.href = `editar${tipo}.html?id=${id}`;
+
+      // Botão Excluir
+      const btnExcluir = document.createElement('button');
+      btnExcluir.className = 'btn-excluir';
+      btnExcluir.textContent = 'Excluir';
+      btnExcluir.onclick = async () => {
+        if (confirm(`Deseja realmente excluir este ${tipo}?`)) {
+          try {
+            const response = await fetch(`http://localhost:8080/api/${tipo}/${id}`, {
+              method: 'DELETE'
+            });
+            if (response.ok) {
+              alert('Excluído com sucesso!');
+              window.location.reload();
+            } else {
+              throw new Error('Falha ao excluir');
+            }
+          } catch (error) {
+            alert('Erro ao excluir: ' + error.message);
+          }
+        }
+      };
+
+      container.appendChild(btnEditar);
+      container.appendChild(btnExcluir);
+      return container;
+    }
+
+    // Função para carregar TODOS os clientes
+    async function carregarTodosClientes() {
+      try {
+        const tbody = document.querySelector('#tabela-clientes-completa tbody');
+        tbody.innerHTML = '<tr><td colspan="13" class="loading">Carregando dados...</td></tr>';
+
+        const response = await fetch('http://localhost:8080/api/cliente');
+
+        if (!response.ok) {
+          throw new Error('Erro ao buscar clientes: ' + response.status);
+        }
+
+        const clientes = await response.json();
+        tbody.innerHTML = '';
+
+        if (clientes.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="13" class="no-data">Nenhum cliente cadastrado</td></tr>';
+          return;
+        }
+
+        clientes.forEach(cliente => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${cliente.id}</td>
+            <td title="${cliente.nome_cliente || '-'}">${cliente.nome_cliente || '-'}</td>
+            <td>${cliente.cpf || '-'}</td>
+            <td>${cliente.cnpj || '-'}</td>
+            <td>${cliente.cep || '-'}</td>
+            <td title="${cliente.endereco || '-'}">${cliente.endereco || '-'}</td>
+            <td>${cliente.numero || '-'}</td>
+            <td>${cliente.bairro || '-'}</td>
+            <td>${cliente.cidade || '-'}</td>
+            <td>${cliente.estado || '-'}</td>
+            <td title="${cliente.email || '-'}">${cliente.email || '-'}</td>
+            <td>${cliente.telefone || '-'}</td>
+          `;
+
+          const tdAcoes = document.createElement('td');
+          tdAcoes.appendChild(criarBotoesAcao(cliente.id, 'Cliente'));
+          tr.appendChild(tdAcoes);
+
+          tbody.appendChild(tr);
+        });
+
+      } catch (error) {
+        console.error('Erro ao carregar clientes:', error);
+        const tbody = document.querySelector('#tabela-clientes-completa tbody');
+        tbody.innerHTML = `<tr><td colspan="13" style="color: red; font-weight: 600;">Erro ao carregar dados: ${error.message}</td></tr>`;
+      }
+    }
+
+    // Carregar os dados quando a página for carregada
+    document.addEventListener('DOMContentLoaded', carregarTodosClientes);
+  </script>
+</body>
+</html>
