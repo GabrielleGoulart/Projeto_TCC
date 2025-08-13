@@ -1,0 +1,229 @@
+body {
+  font-family: 'Inter', sans-serif;
+  background: #fff;
+  color: #333;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+.topo {
+  background-color: #24c0eb;
+  padding: 20px 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  flex-wrap: wrap;
+  text-align: center;
+}
+
+nav.menu {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+nav.menu a {
+  color: white;
+  margin: 0 15px;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+nav.menu a:hover {
+  text-decoration: underline;
+}
+
+.usuario {
+  font-weight: normal;
+  font-size: 16px;
+}
+
+.container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 30px;
+  border: 2px solid #24c0eb;
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(36, 192, 235, 0.2);
+  background: #fff;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+label {
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="datetime-local"],
+textarea {
+  padding: 10px;
+  font-size: 16px;
+  border: 2px solid #24c0eb;
+  border-radius: 8px;
+  resize: vertical;
+}
+
+textarea {
+  min-height: 80px;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.custom-file-label {
+  display: inline-block;
+  padding: 10px 16px;
+  background: #24c0eb;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 14px;
+  width: fit-content;
+  transition: background 0.3s ease;
+}
+
+.custom-file-label:hover {
+  background: #1b9ec9;
+}
+
+.file-name {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #555;
+}
+
+.required {
+  color: red;
+  margin-left: 4px;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 14px;
+  font-size: 18px;
+  background: linear-gradient(135deg, #24c0eb, #1b9ec9);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(36, 192, 235, 0.4);
+  margin-top: 20px;
+  letter-spacing: 1px;
+}
+
+.submit-btn:hover {
+  background: linear-gradient(135deg, #1b9ec9, #1794ba);
+  box-shadow: 0 6px 14px rgba(27, 158, 201, 0.5);
+  transform: translateY(-2px);
+}
+
+.submit-btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 3px 6px rgba(27, 158, 201, 0.3);
+}
+.btn-azul {
+  background: linear-gradient(135deg, #24c0eb, #1b9ec9);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(36, 192, 235, 0.4);
+}
+
+.btn-azul:hover {
+  background: linear-gradient(135deg, #1b9ec9, #1794ba);
+  box-shadow: 0 6px 14px rgba(27, 158, 201, 0.5);
+  transform: translateY(-2px);
+}
+
+.btn-vermelho {
+  background: linear-gradient(135deg, #e74c3c, #c0392b);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(231, 76, 60, 0.4);
+}
+
+.btn-vermelho:hover {
+  background: linear-gradient(135deg, #c0392b, #a93226);
+  box-shadow: 0 6px 14px rgba(192, 57, 43, 0.5);
+  transform: translateY(-2px);
+}
+
+
+.btn-adicionar:hover {
+  background: linear-gradient(135deg, #1b9ec9, #1794ba);
+  box-shadow: 0 6px 14px rgba(27, 158, 201, 0.5);
+  transform: translateY(-2px);
+}
+
+.btn-adicionar:active {
+  transform: translateY(1px);
+  box-shadow: 0 3px 6px rgba(27, 158, 201, 0.3);
+}
+
+
+.btn-adicionar:hover {
+  background-color: #1b9ec9;
+}
+
+@media (max-width: 600px) {
+  .topo {
+    padding: 10px 20px;
+    flex-direction: column;
+    text-align: center;
+  }
+
+  nav.menu {
+    margin-bottom: 10px;
+    flex-direction: column;
+  }
+
+  .container {
+    margin: 20px 10px;
+    padding: 20px;
+  }
+
+  .submit-btn {
+    font-size: 16px;
+    padding: 12px;
+  }
+
+  .usuario {
+    font-size: 14px;
+  }
+
+  nav.menu a {
+    margin: 5px 0;
+  }
+}

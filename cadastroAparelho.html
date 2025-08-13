@@ -1,0 +1,249 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="css/CadastroAparelho.css" />
+  <title>Cadastro de Aparelho | TaskUP</title>
+  <style>
+    .input-group { margin-bottom: 15px; }
+
+    .peca-item {
+      display: flex;
+      gap: 10px;
+      align-items: flex-end;
+      margin-bottom: 10px;
+    }
+
+    .peca-item input {
+      border: 2px solid #24c0eb;
+      border-radius: 8px;
+      padding: 8px;
+    }
+
+    .btn-azul {
+      background-color: #24c0eb;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+
+    .btn-vermelho {
+      background-color: red;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+
+    .file-name { margin-top: 5px; }
+
+    .custom-file-label {
+      background: #24c0eb;
+      color: white;
+      padding: 10px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: inline-block;
+      font-weight: bold;
+    }
+
+    .custom-file-label:hover {
+      background: #1b9ec9;
+    }
+
+    button[type="submit"] {
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      background-color: #24c0eb;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #1b9ec9;
+    }
+
+    #listaPecasAplicadas ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    #listaPecasAplicadas li {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 0;
+      border-bottom: 1px solid #ddd;
+    }
+
+    #listaPecasAplicadas li label {
+      flex-grow: 1;
+    }
+
+    #listaPecasAplicadas li button.btn-remover {
+      background-color: #f44336;
+      border: none;
+      color: white;
+      padding: 4px 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+
+    #listaPecasAplicadas li button.btn-remover:hover {
+      background-color: #d32f2f;
+    }
+  </style>
+</head>
+<body>
+  <div class="topo">
+    <div class="logo">TaskUP</div>
+    <nav class="menu">
+      <a href="#">Início</a>
+      <a href="#">Clientes</a>
+      <a href="#">Aparelhos</a>
+      <a href="#">Tabelas</a>
+      <a href="#">Agenda</a>
+    </nav>
+    <div class="usuario">Olá, Técnico</div>
+  </div>
+
+  <div class="container">
+    <h1>Cadastro de Aparelho</h1>
+    <form id="aparelhoForm" enctype="multipart/form-data" autocomplete="off">
+
+      <div class="input-group">
+        <label for="nome_aparelho">Nome do Aparelho <span class="required">*</span></label>
+        <input type="text" id="nome_aparelho" name="nome_aparelho" maxlength="50" required />
+      </div>
+
+      <div class="input-group">
+        <label for="marca_aparelho">Marca do Aparelho <span class="required">*</span></label>
+        <input type="text" id="marca_aparelho" name="marca_aparelho" maxlength="50" required />
+      </div>
+
+      <div class="input-group">
+        <label for="defeito_aparelho">Defeito <span class="required">*</span></label>
+        <textarea id="defeito_aparelho" name="defeito" maxlength="200" required></textarea>
+      </div>
+
+      <div class="peca-item">
+        <div style="flex: 1; display: flex; flex-direction: column;">
+          <label for="pecaNome">Peças Utilizadas *</label>
+          <input type="text" id="pecaNome" placeholder="Nome da peça utilizada" />
+        </div>
+
+        <div style="width: 150px; display: flex; flex-direction: column;">
+          <label for="pecaQuantidade">Quantidade *</label>
+          <input type="number" id="pecaQuantidade" placeholder="Quantidade" min="1" />
+        </div>
+
+        <button id="addPecaBtn" type="button" class="btn-azul">+ Adicionar Peça</button>
+      </div>
+
+      <div id="listaPecasAplicadas">
+        <h4>Peças Aplicadas:</h4>
+        <ul id="listaPecas"></ul>
+      </div>
+
+      <div class="input-group">
+        <label for="nome_tecnico">Nome do Técnico <span class="required">*</span></label>
+        <input type="text" id="nome_tecnico" name="nome_tecnico" maxlength="100" required />
+      </div>
+
+      <div class="input-group">
+        <label for="data_entrega">Data de entrega <span class="required">*</span></label>
+        <input type="datetime-local" id="data_entrega" name="data_entrega" required />
+      </div>
+
+      <div class="input-group">
+        <label for="observacoes">Observações <span class="required">*</span></label>
+        <textarea id="observacoes" name="observacoes" maxlength="200" required></textarea>
+      </div>
+
+      <div class="input-group">
+        <label for="valor_total">Valor Total (R$) <span class="required">*</span></label>
+        <input type="number" id="valor_total" name="valor_total" min="0" step="0.01" required />
+      </div>
+
+      <div class="input-group">
+        <label for="foto_aparelho" class="custom-file-label">Escolher Foto do Aparelho (opcional)</label>
+        <input type="file" id="foto_aparelho" name="foto_aparelho" accept="image/*" onchange="mostrarNomeArquivo(this)" />
+        <div class="file-name" id="nomeArquivo">Nenhum arquivo escolhido</div>
+      </div>
+
+      <button type="submit">Salvar Aparelho</button>
+    </form>
+  </div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const nomeInput = document.getElementById("pecaNome");
+    const quantidadeInput = document.getElementById("pecaQuantidade");
+    const addBtn = document.getElementById("addPecaBtn");
+    const lista = document.getElementById("listaPecas");
+    const pecas = [];
+
+    function renderLista() {
+      lista.innerHTML = "";
+      pecas.forEach((peca, index) => {
+        const li = document.createElement("li");
+
+        const label = document.createElement("label");
+        label.textContent = `${peca.nome} - Quantidade: ${peca.quantidade}`;
+
+        const btnRemover = document.createElement("button");
+        btnRemover.textContent = "Remover";
+        btnRemover.className = "btn-remover";
+        btnRemover.type = "button";
+
+        btnRemover.addEventListener("click", () => {
+          pecas.splice(index, 1);
+          renderLista();
+        });
+
+        li.appendChild(label);
+        li.appendChild(btnRemover);
+        lista.appendChild(li);
+      });
+    }
+
+    addBtn.addEventListener("click", () => {
+      const nome = nomeInput.value.trim();
+      const quantidade = parseInt(quantidadeInput.value.trim());
+
+      if (!nome || isNaN(quantidade) || quantidade <= 0) {
+        alert("Preencha a peça e uma quantidade válida.");
+        return;
+      }
+
+      pecas.push({ nome, quantidade });
+      renderLista();
+
+      nomeInput.value = "";
+      quantidadeInput.value = "";
+    });
+  });
+
+  function mostrarNomeArquivo(input) {
+    const nomeArquivo = document.getElementById("nomeArquivo");
+    if (input.files && input.files.length > 0) {
+      nomeArquivo.textContent = input.files[0].name;
+    } else {
+      nomeArquivo.textContent = "Nenhum arquivo escolhido";
+    }
+  }
+</script>
+
+</body>
+</html>
+
