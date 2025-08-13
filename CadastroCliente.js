@@ -19,6 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const statusBusca = document.getElementById('statusBusca');
   const formCliente = document.getElementById('clienteForm');
   const tabelaClientesBody = document.querySelector('#tabela-clientes tbody');
+  const container = document.querySelector('.container');
 
   // Aplicar máscaras
   function aplicarMascaras() {
@@ -145,8 +146,9 @@ document.addEventListener("DOMContentLoaded", function () {
         carregarClientes();
 
         // Transição suave para CadastroAparelho
+        container.classList.add('fade-out');
         document.body.classList.add('fade-out');
-        setTimeout(() => { window.location.href = "cadastroAparelho.html"; }, 500);
+        setTimeout(() => { window.location.href = "CadastroAparelho.html"; }, 500);
       } else {
         alert(`Erro no cadastro: ${result.message || 'Verifique os dados.'}`);
         statusBusca.textContent = 'Erro ao cadastrar cliente.';
@@ -159,7 +161,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // Carregar clientes na tabela (opcional)
+  // Carregar clientes na tabela
   async function carregarClientes() {
     if (!tabelaClientesBody) return;
     tabelaClientesBody.innerHTML = '<tr><td colspan="8">Carregando dados...</td></tr>';
