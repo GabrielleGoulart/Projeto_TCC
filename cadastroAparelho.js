@@ -1,11 +1,15 @@
 document.addEventListener("DOMContentLoaded", async function () {
+  const API_BASE = "http://localhost:8080";
+
+  // Elementos do formulário
   const form = document.getElementById("aparelhoForm");
-  const nomePecaInput = document.getElementById("pecaNome");
-  const quantidadePecaInput = document.getElementById("pecaQuantidade");
-  const addPecaBtn = document.getElementById("addPecaBtn");
+  const selectPeca = document.getElementById("pecaNome");
+  const quantidadeInput = document.getElementById("pecaQuantidade");
+  const addBtn = document.getElementById("addPecaBtn");
   const lista = document.getElementById("listaPecas");
 
-  let pecas = [];
+  let todasPecas = []; // Todas as peças do banco
+  let pecas = [];      // Peças adicionadas ao aparelho
 
   // Mostrar nome do arquivo
   window.mostrarNomeArquivo = function (input) {
@@ -13,111 +17,84 @@ document.addEventListener("DOMContentLoaded", async function () {
     nomeArquivo.textContent = input.files.length > 0 ? input.files[0].name : "Nenhum arquivo escolhido";
   };
 
-  // Renderizar lista de peças
+  // Renderiza a lista de peças adicionadas
   function renderLista() {
     lista.innerHTML = "";
-    if (pecas.length === 0) {
-      const li = document.createElement("li");
-      li.textContent = "Nenhuma peça adicionada.";
-      lista.appendChild(li);
-      return;
-    }
-
     pecas.forEach((peca, index) => {
       const li = document.createElement("li");
-      li.textContent = `${peca.nome} - Quantidade: ${peca.quantidade_utilizada}`;
+      const label = document.createElement("label");
+      label.textContent = `${peca.nome} - Quantidade: ${peca.quantidade}`;
 
       const btnRemover = document.createElement("button");
       btnRemover.textContent = "Remover";
       btnRemover.className = "btn-remover";
       btnRemover.type = "button";
 
-      btnRemover.addEventListener("click", async () => {
-        try {
-          const res = await fetch(`http://localhost:8080/api/pecas_utilizadas/${peca.id_peca}`, { method: "DELETE", mode: "cors" });
-          if (res.ok) {
-            pecas.splice(index, 1);
-            renderLista();
-          } else {
-            alert("Erro ao remover peça do banco.");
-          }
-        } catch (err) {
-          console.error(err);
-          alert("Erro ao remover peça.");
-        }
+      btnRemover.addEventListener("click", () => {
+        pecas.splice(index, 1);
+        renderLista();
       });
 
+      li.appendChild(label);
       li.appendChild(btnRemover);
       lista.appendChild(li);
     });
   }
 
-  // Carregar peças do banco
-  async function carregarPecas() {
-    lista.innerHTML = "<li>Carregando peças...</li>";
+  // Buscar todas as peças do backend e popular o select
+  async function carregarTodasPecas() {
     try {
-      const res = await fetch("http://localhost:8080/api/pecas_utilizadas", { method: "GET", mode: "cors" });
-      if (!res.ok) throw new Error(`Erro ${res.status}: ${res.statusText}`);
-      const dados = await res.json();
-
-      // Ajuste para garantir que cada objeto tenha id_peca, quantidade_utilizada e data_utilizacao
-      pecas = dados.map(p => ({
-        id_peca: p.id_peca,
-        nome: p.nome,
-        quantidade_utilizada: p.quantidade_utilizada,
-        data_utilizacao: p.data_utilizacao
-      }));
-
-      renderLista();
+      const res = await fetch(`${API_BASE}/api/peca`);
+      if (res.ok) {
+        todasPecas = await res.json();
+        selectPeca.innerHTML = '<option value="">Selecione uma peça</option>';
+        todasPecas.forEach(p => {
+          const option = document.createElement("option");
+          option.value = p.id; 
+          option.textContent = `${p.nome} (Estoque: ${p.quantidade_estoque})`;
+          selectPeca.appendChild(option);
+        });
+      } else {
+        console.error("Erro ao buscar peças do banco.");
+      }
     } catch (err) {
-      console.error("Erro ao carregar peças:", err);
-      lista.innerHTML = `<li style="color:red;">Erro ao carregar peças: ${err.message}</li>`;
+      console.error("Erro ao conectar com API:", err);
     }
   }
 
-  await carregarPecas();
+  await carregarTodasPecas();
 
-  // Adicionar nova peça
-  addPecaBtn.addEventListener("click", async () => {
-    const nome = nomePecaInput.value.trim();
-    const quantidade = parseInt(quantidadePecaInput.value.trim());
+  // Adicionar peça à lista
+  addBtn.addEventListener("click", () => {
+    const idPecaStr = selectPeca.value;
+    if (!idPecaStr) return;
 
-    if (!nome || isNaN(quantidade) || quantidade <= 0) {
-      alert("Preencha o nome da peça e uma quantidade válida.");
-      return;
-    }
+    const idPecaNum = Number(idPecaStr);
+    const pecaSelecionada = todasPecas.find(p => Number(p.id) === idPecaNum);
+    if (!pecaSelecionada) return;
 
-    try {
-      const res = await fetch("http://localhost:8080/api/pecas_utilizadas", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ nome, quantidade_utilizada: quantidade }), // correspondendo ao BD
-        mode: "cors"
-      });
+    const quantidade = parseInt(quantidadeInput.value.trim());
+    if (isNaN(quantidade) || quantidade <= 0) return;
 
-      if (res.ok) {
-        const novaPeca = await res.json(); 
-        pecas.push({
-          id_peca: novaPeca.id_peca,
-          nome: novaPeca.nome,
-          quantidade_utilizada: novaPeca.quantidade_utilizada,
-          data_utilizacao: novaPeca.data_utilizacao
-        });
-        renderLista();
-        nomePecaInput.value = "";
-        quantidadePecaInput.value = "";
-      } else {
-        alert("Erro ao adicionar peça.");
-      }
-    } catch (err) {
-      console.error(err);
-      alert("Erro ao conectar com API.");
-    }
+    const existe = pecas.find(p => Number(p.id) === idPecaNum);
+    if (existe) return;
+
+    pecas.push({
+      id: pecaSelecionada.id,
+      nome: pecaSelecionada.nome,
+      quantidade: quantidade
+    });
+
+    renderLista();
+
+    quantidadeInput.value = "";
+    selectPeca.value = "";
   });
 
-  // Submissão do formulário de aparelho
+  // Submissão do formulário
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
+    if (pecas.length === 0) return;
 
     const dadosAparelho = {
       nome_aparelho: document.getElementById("nome_aparelho").value.trim(),
@@ -127,28 +104,39 @@ document.addEventListener("DOMContentLoaded", async function () {
       data_entrega: document.getElementById("data_entrega").value,
       observacoes: document.getElementById("observacoes").value.trim(),
       valor_total: parseFloat(document.getElementById("valor_total").value),
-      pecas: pecas.map(p => ({
-        id_peca: p.id_peca,
-        quantidade_utilizada: p.quantidade_utilizada,
-        data_utilizacao: p.data_utilizacao
-      }))
+      pecas: pecas.map(p => ({ id: p.id, quantidade: p.quantidade }))
     };
 
     try {
-      const res = await fetch("http://localhost:8080/api/aparelhos", {
+      // Cadastra o aparelho
+      const res = await fetch(`${API_BASE}/api/aparelhos`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(dadosAparelho),
-        mode: "cors"
+        body: JSON.stringify(dadosAparelho)
       });
 
       if (res.ok) {
+        const aparelhoCadastrado = await res.json();
         alert("Aparelho cadastrado com sucesso!");
+
+        // Cadastra automaticamente na agenda
+        const agenda = {
+          dataAgendada: dadosAparelho.data_entrega,
+          descricao: `Aparelho: ${dadosAparelho.nome_aparelho} - Defeito: ${dadosAparelho.defeito_aparelho}`,
+          aparelho: { id: aparelhoCadastrado.id }
+        };
+
+        await fetch(`${API_BASE}/api/agenda`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(agenda)
+        });
+
         form.reset();
         pecas = [];
         renderLista();
         document.getElementById("nomeArquivo").textContent = "Nenhum arquivo escolhido";
-        await carregarPecas(); 
+
       } else {
         alert("Erro ao cadastrar aparelho.");
       }
