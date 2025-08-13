@@ -20,10 +20,16 @@ document.addEventListener("DOMContentLoaded", function () {
   const formCliente = document.getElementById('clienteForm');
   const tabelaClientesBody = document.querySelector('#tabela-clientes tbody');
 
-  // Máscaras
-  VMasker(docInput).maskPattern('999.999.999-99');
-  VMasker(telefone).maskPattern('(99) 9 9999-9999');
-  VMasker(cep).maskPattern('99999-999');
+  // Aplicar máscaras
+  function aplicarMascaras() {
+    if (radioPF.checked) {
+      VMasker(docInput).maskPattern('999.999.999-99');
+    } else {
+      VMasker(docInput).maskPattern('99.999.999/9999-99');
+    }
+    VMasker(telefone).maskPattern('(99) 9 9999-9999');
+    VMasker(cep).maskPattern('99999-999');
+  }
 
   // Alternar PF/PJ
   function updateDocField() {
@@ -34,28 +40,26 @@ document.addEventListener("DOMContentLoaded", function () {
       docInput.placeholder = 'Insira o CPF';
       nomePF.style.display = 'block';
       nomePJ.style.display = 'none';
-      VMasker(docInput).maskPattern('999.999.999-99');
     } else {
       docLabel.textContent = 'CNPJ *';
       docInput.placeholder = 'Insira o CNPJ';
       nomePF.style.display = 'none';
       nomePJ.style.display = 'block';
-      VMasker(docInput).maskPattern('99.999.999/9999-99');
     }
+    aplicarMascaras();
   }
 
   radioPF.addEventListener('change', updateDocField);
   radioPJ.addEventListener('change', updateDocField);
   updateDocField();
 
-  // Buscar cliente por CPF/CNPJ
+  // Buscar cliente
   buscarBtn.addEventListener('click', async () => {
     const documento = docInput.value.replace(/\D/g, '');
     if (!documento) {
       alert('Por favor, insira um CPF ou CNPJ para buscar.');
       return;
     }
-
     statusBusca.textContent = 'Buscando...';
     statusBusca.style.color = 'black';
 
@@ -75,12 +79,8 @@ document.addEventListener("DOMContentLoaded", function () {
         statusBusca.textContent = `Cliente encontrado: ${cliente.nome || cliente.nomeCompleto || cliente.nomeEmpresa}`;
         statusBusca.style.color = 'green';
 
-        if (radioPF.checked && cliente.nomeCompleto) {
-          nomeCompleto.value = cliente.nomeCompleto;
-        } else if (radioPJ.checked && cliente.nomeEmpresa) {
-          nomeEmpresa.value = cliente.nomeEmpresa;
-        }
-
+        if (radioPF.checked && cliente.nomeCompleto) nomeCompleto.value = cliente.nomeCompleto;
+        if (radioPJ.checked && cliente.nomeEmpresa) nomeEmpresa.value = cliente.nomeEmpresa;
         telefone.value = cliente.telefone || '';
         email.value = cliente.email || '';
         cep.value = cliente.cep || '';
@@ -102,11 +102,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // Cadastro de cliente
+  // Cadastro de cliente com transição
   formCliente.addEventListener('submit', async function (event) {
     event.preventDefault();
 
-    // Validação
     if (!docInput.value || !telefone.value || !email.value || !cep.value || !bairro.value || !cidade.value || !estado.value ||
         (radioPF.checked && !nomeCompleto.value) || (radioPJ.checked && !nomeEmpresa.value)) {
       alert('Por favor, preencha todos os campos obrigatórios.');
@@ -139,12 +138,15 @@ document.addEventListener("DOMContentLoaded", function () {
       const result = await response.json();
 
       if (response.ok) {
-        alert('✅ Cliente cadastrado com sucesso!');
         statusBusca.textContent = 'Cliente cadastrado com sucesso!';
         statusBusca.style.color = 'green';
         formCliente.reset();
         updateDocField();
-        carregarClientes(); // Atualiza tabela após cadastro
+        carregarClientes();
+
+        // Transição suave para CadastroAparelho
+        document.body.classList.add('fade-out');
+        setTimeout(() => { window.location.href = "cadastroAparelho.html"; }, 500);
       } else {
         alert(`Erro no cadastro: ${result.message || 'Verifique os dados.'}`);
         statusBusca.textContent = 'Erro ao cadastrar cliente.';
@@ -157,25 +159,19 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // Carregar todos clientes na tabela
+  // Carregar clientes na tabela (opcional)
   async function carregarClientes() {
+    if (!tabelaClientesBody) return;
     tabelaClientesBody.innerHTML = '<tr><td colspan="8">Carregando dados...</td></tr>';
+
     try {
-      const response = await fetch('http://localhost:8080/api/cliente', {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
-        mode: 'cors'
-      });
-
-      if (!response.ok) throw new Error(`Erro ${response.status}: ${response.statusText}`);
-
+      const response = await fetch('http://localhost:8080/api/cliente', { method: 'GET', headers: { 'Content-Type': 'application/json' }, mode: 'cors' });
+      if (!response.ok) throw new Error(`Erro ${response.status}`);
       const clientes = await response.json();
-
       if (clientes.length === 0) {
         tabelaClientesBody.innerHTML = '<tr><td colspan="8">Nenhum cliente cadastrado</td></tr>';
         return;
       }
-
       tabelaClientesBody.innerHTML = '';
       clientes.forEach(cliente => {
         const tr = document.createElement('tr');
@@ -187,9 +183,7 @@ document.addEventListener("DOMContentLoaded", function () {
           <td>${cliente.email || '-'}</td>
           <td>${cliente.cep || '-'}</td>
           <td>${cliente.endereco || '-'}</td>
-          <td>
-            <button onclick="excluirCliente(${cliente.id})" class="btn-excluir">Excluir</button>
-          </td>
+          <td><button onclick="excluirCliente(${cliente.id})" class="btn-excluir">Excluir</button></td>
         `;
         tabelaClientesBody.appendChild(tr);
       });
@@ -203,10 +197,7 @@ document.addEventListener("DOMContentLoaded", function () {
   window.excluirCliente = async function(id) {
     if (!confirm('Deseja realmente excluir este cliente?')) return;
     try {
-      const response = await fetch(`http://localhost:8080/api/cliente/${id}`, {
-        method: 'DELETE',
-        mode: 'cors'
-      });
+      const response = await fetch(`http://localhost:8080/api/cliente/${id}`, { method: 'DELETE', mode: 'cors' });
       if (response.ok) {
         alert('Cliente excluído com sucesso!');
         carregarClientes();
@@ -219,6 +210,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Inicializa tabela ao carregar página
+  // Inicializa tabela
   carregarClientes();
 });
